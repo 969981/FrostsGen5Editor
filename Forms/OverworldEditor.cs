@@ -42,7 +42,7 @@ namespace NewEditor.Forms
                 mapIDNumberBox.Value = z.mapId;
                 parentMapIDNumberBox.Value = z.parentMapId;
                 weatherNumberBox.Value = z.weather;
-                textureNumberBox.Value = z.texture;
+                textureNumberBox.Value = z.areaDataID;
                 unk1NumberBox.Value = z.unknown1;
                 unk2NumberBox.Value = z.unknown2;
                 unk3NumberBox.Value = z.unknown3;
@@ -201,7 +201,7 @@ namespace NewEditor.Forms
                 z.camera = (byte)cameraNumberBox.Value;
                 z.flags = (byte)flagsNumberBox.Value;
                 z.weather = (byte)weatherNumberBox.Value;
-                z.texture = (short)textureNumberBox.Value;
+                z.areaDataID = (short)textureNumberBox.Value;
                 z.nameId = (byte)mapNameDropdown.SelectedIndex;
                 z.difficultyLevelChange = (byte)challengeLevelNumberBox.Value;
                 z.flyX = (int)flyXNumberBox.Value;
@@ -350,7 +350,10 @@ namespace NewEditor.Forms
             npcXLeashNumberBox.Value = npc.horizontalLeash;
             npcYLeashNumberBox.Value = npc.verticalLeash;
             npcSightRangeNumberBox.Value = npc.sightRange;
-            npcMovementPermissionsNumberBox.Value = npc.movementPermissions;
+            npcParam1NumberBox.Value = npc.unknown1;
+            npcParam2NumberBox.Value = npc.unknown2;
+            npcMovementDropdown.SelectedIndex = npc.movementPermissions;
+            npcBehaviorDropdown.SelectedIndex = npc.movementBehavior;
             npcXPositionNumberBox.Value = npc.xPosition;
             npcYPositionNumberBox.Value = npc.yPosition;
             npcZPositionNumberBox.Value = npc.zPosition;
@@ -464,7 +467,10 @@ namespace NewEditor.Forms
                 npc.horizontalLeash = (short)npcXLeashNumberBox.Value;
                 npc.verticalLeash = (short)npcYLeashNumberBox.Value;
                 npc.sightRange = (short)npcSightRangeNumberBox.Value;
-                npc.movementPermissions = (short)npcMovementPermissionsNumberBox.Value;
+                npc.unknown1 = (short)npcParam1NumberBox.Value;
+                npc.unknown2 = (short)npcParam2NumberBox.Value;
+                npc.movementPermissions = (short)npcMovementDropdown.SelectedIndex;
+                npc.movementBehavior = (short)npcBehaviorDropdown.SelectedIndex;
                 npc.xPosition = (short)npcXPositionNumberBox.Value;
                 npc.yPosition = (short)npcYPositionNumberBox.Value;
                 npc.zPosition = (short)npcZPositionNumberBox.Value;

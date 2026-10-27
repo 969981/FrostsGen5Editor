@@ -174,7 +174,7 @@ namespace NewEditor.Data.NARCTypes
             bytes[5] = powerPoints;
 
             bytes[6] = (byte)priority;
-            bytes[7] = (byte)((maxMultiHit << 4) + minMultiHit);
+            bytes[7] = (byte)(((maxMultiHit & 7) << 4) + (minMultiHit & 7));
 
             HelperFunctions.WriteShort(bytes, 8, statusEffect);
             bytes[10] = statusChance;

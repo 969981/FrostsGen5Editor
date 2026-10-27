@@ -143,7 +143,13 @@ namespace NewEditor.Data.NARCTypes
                     .Replace("[V0]", "\\xf000Ā\\x0001\\x0000")
                     .Replace("[V1]", "\\xf000Ā\\x0001\\x0001")
                     .Replace("[V2]", "\\xf000Ā\\x0001\\x0002")
-                    .Replace("[V3]", "\\xf000Ā\\x0001\\x0003");
+                    .Replace("[V3]", "\\xf000Ā\\x0001\\x0003")
+                    .Replace("[V4]", "\\xf000Ā\\x0001\\x0004")
+                    .Replace("[V5]", "\\xf000Ā\\x0001\\x0005")
+                    .Replace("[V6]", "\\xf000Ā\\x0001\\x0006")
+                    .Replace("[V7]", "\\xf000Ā\\x0001\\x0007")
+                    .Replace("[V8]", "\\xf000Ā\\x0001\\x0008")
+                    .Replace("[V9]", "\\xf000Ā\\x0001\\x0009");
 
         public static string UnFormatText(string text) => text.Replace("\\xf000븁\\x0000\\xfffe", "[C]")
                     .Replace("\\xf000븀\\x0000\\xfffe", "[L]")
@@ -159,7 +165,13 @@ namespace NewEditor.Data.NARCTypes
                     .Replace("\\xf000Ā\\x0001\\x0000", "[V0]")
                     .Replace("\\xf000Ā\\x0001\\x0001", "[V1]")
                     .Replace("\\xf000Ā\\x0001\\x0002", "[V2]")
-                    .Replace("\\xf000Ā\\x0001\\x0003", "[V3]");
+                    .Replace("\\xf000Ā\\x0001\\x0003", "[V3]")
+                    .Replace("\\xf000Ā\\x0001\\x0004", "[V4]")
+                    .Replace("\\xf000Ā\\x0001\\x0005", "[V5]")
+                    .Replace("\\xf000Ā\\x0001\\x0006", "[V6]")
+                    .Replace("\\xf000Ā\\x0001\\x0007", "[V7]")
+                    .Replace("\\xf000Ā\\x0001\\x0008", "[V8]")
+                    .Replace("\\xf000Ā\\x0001\\x0009", "[V9]");
 
         public string GetLine(int file, int line) => textFiles[file].text[line];
     }

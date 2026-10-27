@@ -395,10 +395,16 @@ namespace DarkModeForms
 
         /// <summary>Apply the Theme into the Window and all its controls.</summary>
         /// <param name="pIsDarkMode">'true': apply Dark Mode, 'false': apply Clear Mode</param>
-        public void ApplyTheme(bool pIsDarkMode = true)
+        public void ApplyTheme(bool pIsDarkMode = true, bool closePaletteEditor = false)
         {
             foreach (Form form in MainEditor.GetAllForms())
             {
+                if (form is PaletteEditor && closePaletteEditor)
+                {
+                    MessageBox.Show("The Pokemon sprite editor was forced to close in order to enable dark mode.");
+                    form.Close();
+                    continue;
+                }
                 try
                 {
                     // IsDarkMode member changes only if the User manually changed it here:

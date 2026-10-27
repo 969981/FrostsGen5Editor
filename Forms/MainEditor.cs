@@ -1,20 +1,24 @@
-﻿using NewEditor.Data;
+﻿using DarkModeForms;
+using LibNDSFormats.NSBMD;
+using LibNDSFormats.NSBTX;
+using NewEditor.Data;
+using NewEditor.Data.Mapping;
+using NewEditor.Data.NARCTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Diagnostics;
-using NewEditor.Data.NARCTypes;
-using System.Threading;
-using System.Runtime.InteropServices;
-using DarkModeForms;
-using System.Drawing.Imaging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NewEditor.Forms
 {
@@ -28,6 +32,7 @@ namespace NewEditor.Forms
         public static int textNarcID = -1;
         public static int storyTextNarcID = -1;
         public static int mapModelsNarcID = -1;
+        public static int mapTexturesNarcID = -1;
         public static int pokemonSpritesNarcID = -1;
         public static int pokemonIconsNarcID = -1;
         public static int pokemonDataNarcID = -1;
@@ -37,6 +42,7 @@ namespace NewEditor.Forms
         public static int childPokemonNarcID = -1;
         public static int moveDataNarcID = -1;
         public static int itemDataNarcID = -1;
+        public static int itemSpriteNarcID = -1;
         public static int moveAnimationNarcID = -1;
         public static int moveAnimationExtraNarcID = -1;
         public static int zoneDataNarcID = -1;
@@ -55,6 +61,11 @@ namespace NewEditor.Forms
         public static int xpCurveNarcID = -1;
         public static int habitatListNarcID = -1;
         public static int hiddenGrottoNarcID = -1;
+        public static int exteriorTexturesNarcID = -1;
+        public static int interiorTexturesNarcID = -1;
+        public static int exteriorBuildingsNarcID = -1;
+        public static int interiorBuildingsNarcID = -1;
+        public static int npcSpriteNarcID = -1;
 
         //Rom Data
         public static NDSFileSystem fileSystem;
@@ -74,11 +85,13 @@ namespace NewEditor.Forms
         public static ChildPokemonNARC childPokemonNarc;
         public static MoveDataNARC moveDataNarc;
         public static ItemDataNARC itemDataNarc;
+        public static ItemSpriteNARC itemSpriteNarc;
         public static MoveAnimationNARC moveAnimationNarc;
         public static MoveAnimationNARC moveAnimationExtraNarc;
         public static ZoneDataNARC zoneDataNarc;
         public static MapMatrixNARC mapMatrixNarc;
         public static MapFilesNARC mapFilesNarc;
+        public static MapTexturesNARC mapTexturesNarc;
         public static ScriptNARC scriptNarc;
         public static TrTextEntriesNARC trTextEntriesNarc;
         public static TrTextIndexNARC trTextIndicesNarc;
@@ -93,6 +106,11 @@ namespace NewEditor.Forms
         public static XPCurveNARC xpCurveNarc;
         public static HabitatListNARC habitatListNarc;
         public static HiddenGrottoNARC hiddenGrottoNarc;
+        public static MapTexturesNARC exteriorTexturesNarc;
+        public static MapTexturesNARC interiorTexturesNarc;
+        public static BuildingContainerNARC exteriorBuildingsNarc;
+        public static BuildingContainerNARC interiorBuildingsNarc;
+        public static NPCSpriteNARC npcSpriteNarc;
 
         //Forms
         public static TextViewer textViewer;
@@ -107,6 +125,8 @@ namespace NewEditor.Forms
         public static PokemartEditor pokemartEditor;
         public static GrottoEditor grottoEditor;
         public static ExpCurveEditor xpCurveEditor;
+        public static MapEditor mapEditor;
+        public static MapMatrixEditor mapMatrixEditor;
         public static OverlayEditor overlayEditor;
         public static TypeChartEditor typeChartEditor;
         public static Pokepatcher pokePatchEditor;
@@ -135,11 +155,12 @@ namespace NewEditor.Forms
             if (themeDropdown.SelectedIndex < 0 || themeDropdown.SelectedIndex >= themeDropdown.Items.Count) return;
             if (themeDropdown.SelectedIndex == 0 && darkMode == null) return;
 
+            bool wasNull = darkMode == null;
             if (darkMode == null) darkMode = new DarkModeCS(this)
             {
                 ColorMode = themeDropdown.SelectedIndex == 1 ? DarkModeCS.DisplayMode.DarkMode : DarkModeCS.DisplayMode.ClearMode
             };
-            darkMode.ApplyTheme(themeDropdown.SelectedIndex == 1);
+            darkMode.ApplyTheme(themeDropdown.SelectedIndex == 1, wasNull);
             FileFunctions.WriteFileSection("Preferences.txt", "DarkMode", new byte[] { (byte)themeDropdown.SelectedIndex });
         }
 
@@ -154,6 +175,8 @@ namespace NewEditor.Forms
             if (encounterEditor != null && !encounterEditor.IsDisposed) list.Add(encounterEditor);
             if (xpCurveEditor != null && !xpCurveEditor.IsDisposed) list.Add(xpCurveEditor);
             if (scriptEditor != null && !scriptEditor.IsDisposed) list.Add(scriptEditor);
+            if (mapEditor != null && !mapEditor.IsDisposed) list.Add(mapEditor);
+            if (mapMatrixEditor != null && !mapMatrixEditor.IsDisposed) list.Add(mapMatrixEditor);
             if (trainerEditor != null && !trainerEditor.IsDisposed) list.Add(trainerEditor);
             if (pokemartEditor != null && !pokemartEditor.IsDisposed) list.Add(pokemartEditor);
             if (grottoEditor != null && !grottoEditor.IsDisposed) list.Add(grottoEditor);
@@ -191,6 +214,7 @@ namespace NewEditor.Forms
                 textNarcID = VersionConstants.BW2_TextNARCID;
                 storyTextNarcID = VersionConstants.BW2_StoryTextNARCID;
                 mapModelsNarcID = VersionConstants.BW2_MapFilesNARCID;
+                mapTexturesNarcID = VersionConstants.BW1_MapTexturesNARCID;
                 mapMatrixNarcID = VersionConstants.BW2_MapMatriciesNARCID;
                 pokemonSpritesNarcID = VersionConstants.BW2_PokemonSpritesNARCID;
                 pokemonIconsNarcID = VersionConstants.BW2_PokemonIconsNARCID;
@@ -201,6 +225,7 @@ namespace NewEditor.Forms
                 childPokemonNarcID = VersionConstants.BW2_ChildPokemonNARCID;
                 moveDataNarcID = VersionConstants.BW2_MoveDataNARCID;
                 itemDataNarcID = VersionConstants.BW2_ItemDataNARCID;
+                itemSpriteNarcID = VersionConstants.BW2_ItemSpriteNARCID;
                 moveAnimationNarcID = VersionConstants.BW2_MoveAnimationNARCID;
                 moveAnimationExtraNarcID = VersionConstants.BW2_MoveAnimationExtraNARCID;
                 zoneDataNarcID = VersionConstants.BW2_ZoneDataNARCID;
@@ -218,6 +243,11 @@ namespace NewEditor.Forms
                 xpCurveNarcID = VersionConstants.BW2_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW2_HabitatListNARCID;
                 hiddenGrottoNarcID = VersionConstants.BW2_HiddenGrottoNARCID;
+                exteriorTexturesNarcID = VersionConstants.BW2_ExteriorTexturesNARCID;
+                interiorTexturesNarcID = VersionConstants.BW2_InteriorTexturesNARCID;
+                exteriorBuildingsNarcID = VersionConstants.BW2_ExteriorBuildingContainerNARCID;
+                interiorBuildingsNarcID = VersionConstants.BW2_InteriorBuildingContainerNARCID;
+                npcSpriteNarcID = VersionConstants.BW2_NPCSpriteNARCID;
                 return;
             }
             else if (romType == "pokemon b" || romType == "pokemon w")
@@ -232,6 +262,7 @@ namespace NewEditor.Forms
                 textNarcID = VersionConstants.BW1_TextNARCID;
                 storyTextNarcID = VersionConstants.BW1_StoryTextNARCID;
                 mapModelsNarcID = VersionConstants.BW1_MapFilesNARCID;
+                mapTexturesNarcID = VersionConstants.BW1_MapTexturesNARCID;
                 mapMatrixNarcID = VersionConstants.BW1_MapMatriciesNARCID;
                 pokemonSpritesNarcID = VersionConstants.BW1_PokemonSpritesNARCID;
                 pokemonIconsNarcID = VersionConstants.BW1_PokemonIconsNARCID;
@@ -242,6 +273,7 @@ namespace NewEditor.Forms
                 childPokemonNarcID = VersionConstants.BW1_ChildPokemonNARCID;
                 moveDataNarcID = VersionConstants.BW1_MoveDataNARCID;
                 itemDataNarcID = VersionConstants.BW1_ItemDataNARCID;
+                itemSpriteNarcID = VersionConstants.BW1_ItemSpriteNARCID;
                 moveAnimationNarcID = VersionConstants.BW1_MoveAnimationNARCID;
                 moveAnimationExtraNarcID = VersionConstants.BW1_MoveAnimationExtraNARCID;
                 zoneDataNarcID = VersionConstants.BW1_ZoneDataNARCID;
@@ -259,6 +291,11 @@ namespace NewEditor.Forms
                 xpCurveNarcID = VersionConstants.BW1_XPCurveNARCID;
                 habitatListNarcID = VersionConstants.BW1_HabitatListNARCID;
                 hiddenGrottoNarcID = VersionConstants.BW1_HiddenGrottoNARCID;
+                exteriorTexturesNarcID = VersionConstants.BW1_ExteriorTexturesNARCID;
+                interiorTexturesNarcID = VersionConstants.BW1_InteriorTexturesNARCID;
+                exteriorBuildingsNarcID = VersionConstants.BW1_ExteriorBuildingContainerNARCID;
+                interiorBuildingsNarcID = VersionConstants.BW1_InteriorBuildingContainerNARCID;
+                npcSpriteNarcID = VersionConstants.BW1_NPCSpriteNARCID;
                 return;
             }
 
@@ -396,6 +433,8 @@ namespace NewEditor.Forms
             if (encounterEditor != null && !encounterEditor.IsDisposed) encounterEditor.Close();
             if (xpCurveEditor != null && !xpCurveEditor.IsDisposed) xpCurveEditor.Close();
             if (scriptEditor != null && !scriptEditor.IsDisposed) scriptEditor.Close();
+            if (mapEditor != null && !mapEditor.IsDisposed) mapEditor.Close();
+            if (mapMatrixEditor != null && !mapMatrixEditor.IsDisposed) mapMatrixEditor.Close();
             if (trainerEditor != null && !trainerEditor.IsDisposed) trainerEditor.Close();
             if (pokemartEditor != null && !pokemartEditor.IsDisposed) pokemartEditor.Close();
             if (grottoEditor != null && !grottoEditor.IsDisposed) grottoEditor.Close();
@@ -414,12 +453,14 @@ namespace NewEditor.Forms
             evolutionsNarc = null;
             moveDataNarc = null;
             itemDataNarc = null;
+            itemSpriteNarc = null;
             childPokemonNarc = null;
             moveAnimationNarc = null;
             moveAnimationExtraNarc = null;
             zoneDataNarc = null;
             mapMatrixNarc = null;
             mapFilesNarc = null;
+            mapTexturesNarc = null;
             scriptNarc = null;
             trainerNarc = null;
             trainerPokeNarc = null;
@@ -435,7 +476,7 @@ namespace NewEditor.Forms
             bool fail = false;
             await Task.Run(() =>
             {
-                try
+                //try
                 {
                     if (fromFolder)
                     {
@@ -455,14 +496,14 @@ namespace NewEditor.Forms
                         fileStream.Close();
                     }
                 }
-                catch (Exception ex)
+                //catch (Exception ex)
                 {
                     if (autoLoaded)
                     {
                         DisableAutoLoad(null, null);
                         MessageBox.Show("Auto load has been disabled due to an error with the rom file.\nPlease restart the application.");
                     }
-                    throw ex;
+                    //throw ex;
                 }
             });
             if (fail)
@@ -489,6 +530,9 @@ namespace NewEditor.Forms
 
             loadingNARCS = false;
             autoLoaded = false;
+
+            //OpenMapEditor(null, null);
+            //OpenMapMatrixEditor(null, null);
         }
 
         public static void SetNARCVars(NDSFileSystem fileSystem)
@@ -504,12 +548,14 @@ namespace NewEditor.Forms
             evolutionsNarc = fileSystem.narcs[evolutionNarcID] as EvolutionDataNARC;
             moveDataNarc = fileSystem.narcs[moveDataNarcID] as MoveDataNARC;
             itemDataNarc = fileSystem.narcs[itemDataNarcID] as ItemDataNARC;
+            itemSpriteNarc = fileSystem.narcs[itemSpriteNarcID] as ItemSpriteNARC;
             childPokemonNarc = fileSystem.narcs[childPokemonNarcID] as ChildPokemonNARC;
             moveAnimationNarc = fileSystem.narcs[moveAnimationNarcID] as MoveAnimationNARC;
             moveAnimationExtraNarc = fileSystem.narcs[moveAnimationExtraNarcID] as MoveAnimationNARC;
             zoneDataNarc = fileSystem.narcs[zoneDataNarcID] as ZoneDataNARC;
             mapMatrixNarc = fileSystem.narcs[mapMatrixNarcID] as MapMatrixNARC;
             mapFilesNarc = fileSystem.narcs[mapModelsNarcID] as MapFilesNARC;
+            mapTexturesNarc = fileSystem.narcs[mapTexturesNarcID] as MapTexturesNARC;
             scriptNarc = fileSystem.narcs[scriptNarcID] as ScriptNARC;
             trTextEntriesNarc = fileSystem.narcs[trTextEntriesNarcID] as TrTextEntriesNARC;
             trTextIndicesNarc = fileSystem.narcs[trTextIndicesNarcID] as TrTextIndexNARC;
@@ -519,6 +565,11 @@ namespace NewEditor.Forms
             encounterNarc = fileSystem.narcs[encounterNarcID] as EncounterNARC;
             xpCurveNarc = fileSystem.narcs[xpCurveNarcID] as XPCurveNARC;
             AIScriptNarc = fileSystem.narcs[AIScriptNarcID] as AIScriptNARC;
+            exteriorTexturesNarc = fileSystem.narcs[exteriorTexturesNarcID] as MapTexturesNARC;
+            interiorTexturesNarc = fileSystem.narcs[interiorTexturesNarcID] as MapTexturesNARC;
+            exteriorBuildingsNarc = fileSystem.narcs[exteriorBuildingsNarcID] as BuildingContainerNARC;
+            interiorBuildingsNarc = fileSystem.narcs[interiorBuildingsNarcID] as BuildingContainerNARC;
+            npcSpriteNarc = fileSystem.narcs[npcSpriteNarcID] as NPCSpriteNARC;
             if (RomType == RomType.BW2)
             {
                 pokemartNarc = fileSystem.narcs[pokemartNarcID] as PokemartNARC;
@@ -723,6 +774,34 @@ namespace NewEditor.Forms
             ChangeTheme(null, null);
             pokemartEditor.Show();
             pokemartEditor.BringToFront();
+        }
+
+        public void OpenMapEditor(object sender, EventArgs e)
+        {
+            if (mapFilesNarc == null || loadingNARCS)
+            {
+                MessageBox.Show("Map data files have not been loaded");
+                return;
+            }
+
+            if (mapEditor == null || mapEditor.IsDisposed) mapEditor = new MapEditor();
+            ChangeTheme(null, null);
+            mapEditor.Show();
+            mapEditor.BringToFront();
+        }
+
+        private void OpenMapMatrixEditor(object sender, EventArgs e)
+        {
+            if (mapFilesNarc == null || loadingNARCS)
+            {
+                MessageBox.Show("Map data files have not been loaded");
+                return;
+            }
+
+            if (mapMatrixEditor == null || mapMatrixEditor.IsDisposed) mapMatrixEditor = new MapMatrixEditor();
+            ChangeTheme(null, null);
+            mapMatrixEditor.Show();
+            mapMatrixEditor.BringToFront();
         }
 
         public void OpenFileExplorer(object sender, EventArgs e)

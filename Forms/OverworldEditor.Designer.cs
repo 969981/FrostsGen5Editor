@@ -77,7 +77,6 @@ namespace NewEditor.Forms
             this.npcDirectionNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.npcMovementPermissionsNumberBox = new System.Windows.Forms.NumericUpDown();
             this.npcScriptNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -177,6 +176,14 @@ namespace NewEditor.Forms
             this.label51 = new System.Windows.Forms.Label();
             this.cameraNumberBox = new System.Windows.Forms.NumericUpDown();
             this.label52 = new System.Windows.Forms.Label();
+            this.npcMovementDropdown = new System.Windows.Forms.ComboBox();
+            this.npcBehaviorDropdown = new System.Windows.Forms.ComboBox();
+            this.label58 = new System.Windows.Forms.Label();
+            this.label59 = new System.Windows.Forms.Label();
+            this.npcParam1NumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label60 = new System.Windows.Forms.Label();
+            this.npcParam2NumberBox = new System.Windows.Forms.NumericUpDown();
+            this.label61 = new System.Windows.Forms.Label();
             mapTypeTooltip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mapTypeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scriptFileNumberBox)).BeginInit();
@@ -196,7 +203,6 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.npcIDNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcSightRangeNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcDirectionNumberBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.npcMovementPermissionsNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcScriptNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcFlagNumberBox)).BeginInit();
             this.furnitureTab.SuspendLayout();
@@ -240,6 +246,8 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.unk3NumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.flagsNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cameraNumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npcParam1NumberBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npcParam2NumberBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mapTypeNumberBox
@@ -522,6 +530,14 @@ namespace NewEditor.Forms
             // 
             // npcTab
             // 
+            this.npcTab.Controls.Add(this.npcParam2NumberBox);
+            this.npcTab.Controls.Add(this.label61);
+            this.npcTab.Controls.Add(this.npcParam1NumberBox);
+            this.npcTab.Controls.Add(this.label60);
+            this.npcTab.Controls.Add(this.label59);
+            this.npcTab.Controls.Add(this.npcBehaviorDropdown);
+            this.npcTab.Controls.Add(this.label58);
+            this.npcTab.Controls.Add(this.npcMovementDropdown);
             this.npcTab.Controls.Add(this.setItemButton);
             this.npcTab.Controls.Add(this.setItemDropdown);
             this.npcTab.Controls.Add(this.giveItemLabel);
@@ -545,7 +561,6 @@ namespace NewEditor.Forms
             this.npcTab.Controls.Add(this.npcDirectionNumberBox);
             this.npcTab.Controls.Add(this.label12);
             this.npcTab.Controls.Add(this.label9);
-            this.npcTab.Controls.Add(this.npcMovementPermissionsNumberBox);
             this.npcTab.Controls.Add(this.npcScriptNumberBox);
             this.npcTab.Controls.Add(this.label11);
             this.npcTab.Controls.Add(this.label10);
@@ -789,7 +804,7 @@ namespace NewEditor.Forms
             // 
             // npcSightRangeNumberBox
             // 
-            this.npcSightRangeNumberBox.Location = new System.Drawing.Point(250, 190);
+            this.npcSightRangeNumberBox.Location = new System.Drawing.Point(85, 162);
             this.npcSightRangeNumberBox.Maximum = new decimal(new int[] {
             30000,
             0,
@@ -821,11 +836,11 @@ namespace NewEditor.Forms
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(158, 192);
+            this.label8.Location = new System.Drawing.Point(21, 164);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(82, 16);
+            this.label8.Size = new System.Drawing.Size(60, 16);
             this.label8.TabIndex = 90;
-            this.label8.Text = "Sight Range:";
+            this.label8.Text = "Param 0:";
             // 
             // label14
             // 
@@ -861,7 +876,7 @@ namespace NewEditor.Forms
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(170, 222);
+            this.label12.Location = new System.Drawing.Point(149, 222);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(70, 16);
             this.label12.TabIndex = 82;
@@ -875,28 +890,6 @@ namespace NewEditor.Forms
             this.label9.Size = new System.Drawing.Size(62, 16);
             this.label9.TabIndex = 88;
             this.label9.Text = "Direction:";
-            // 
-            // npcMovementPermissionsNumberBox
-            // 
-            this.npcMovementPermissionsNumberBox.Location = new System.Drawing.Point(250, 220);
-            this.npcMovementPermissionsNumberBox.Maximum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            0});
-            this.npcMovementPermissionsNumberBox.Minimum = new decimal(new int[] {
-            30000,
-            0,
-            0,
-            -2147483648});
-            this.npcMovementPermissionsNumberBox.Name = "npcMovementPermissionsNumberBox";
-            this.npcMovementPermissionsNumberBox.Size = new System.Drawing.Size(58, 22);
-            this.npcMovementPermissionsNumberBox.TabIndex = 83;
-            this.npcMovementPermissionsNumberBox.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
             // 
             // npcScriptNumberBox
             // 
@@ -2088,9 +2081,9 @@ namespace NewEditor.Forms
             this.label41.AutoSize = true;
             this.label41.Location = new System.Drawing.Point(20, 300);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(53, 16);
+            this.label41.Size = new System.Drawing.Size(69, 16);
             this.label41.TabIndex = 85;
-            this.label41.Text = "Texture:";
+            this.label41.Text = "Area Data:";
             // 
             // unk4NumberBox
             // 
@@ -2368,6 +2361,217 @@ namespace NewEditor.Forms
             this.label52.TabIndex = 104;
             this.label52.Text = "Camera:";
             // 
+            // npcMovementDropdown
+            // 
+            this.npcMovementDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.npcMovementDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.npcMovementDropdown.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.npcMovementDropdown.FormattingEnabled = true;
+            this.npcMovementDropdown.Items.AddRange(new object[] {
+            "0: None",
+            "1: ???",
+            "2: Random walk around in all directions",
+            "3: Walk randomly within X and Y leash",
+            "4: Looking up and Down",
+            "5: Looking Left and Right",
+            "6: Looking Up and Left",
+            "7: Looking Up and Right",
+            "8: Looking Left and Down",
+            "9: Looking Right and Down",
+            "10: Looking Up, Down, Left",
+            "11: Looking Up, Down, Right",
+            "12: Looking Up, Left, Right",
+            "13: Looking Down, Left, Right",
+            "14: Looking Up",
+            "15: Looking Down",
+            "16: Looking Left",
+            "17: Looking Right",
+            "18: Spin counterclockwise",
+            "19: Spin clockwise",
+            "20: Run in the direction you\'re facing up to X leash.",
+            "21: Look Left and Right every 8 frames. Leashes must be 0",
+            "22: Look Left and Down every 8 frames. Leashes must be 0",
+            "23: Look Right and Up every 8 frames. Leashes must be 0",
+            "24: Run Left until X leash, Down until Y leash, then return",
+            "25: Look Right and Down every 8 frames. Leashes must be 0",
+            "26: Look Right and Down every 8 frames. Leashes must be 0",
+            "27: Look Left and Up every 8 frames. Leashes must be 0",
+            "28: Run Right until X leash, Down until Y leash, then return",
+            "29: Run Left until X leash, Up until Y leash, then return",
+            "30: Look Right and Down every 8 frames. Leashes must be 0",
+            "31: Look Left and Up every 8 frames. Leashes must be 0",
+            "32: Run Down until Y leash, Right until X leash, then return",
+            "33: Run Right until X leash, Up until Y leash, and return",
+            "34: ???",
+            "35: ???",
+            "36: Run Down until Y leash, Left until X leash, then return",
+            "37: Goes Up, then Left, then Down, then Right",
+            "38: Goes Down, then Right, then Up, then Left",
+            "39: Goes Left, then Down, then Right, then Up",
+            "40: Goes Right, then Up, then Left, then Down",
+            "41: Goes Up, then Right, then Down, then Left",
+            "42: Goes Down, then Left, then Up, then Right ",
+            "43: Goes Left, then Up, then Right, then Down",
+            "44: Goes Right, then Down, then Left, then Up",
+            "45: Randomly looks Up and Down",
+            "46: Randomly looks Left and Right ",
+            "47: Causes Hard Crash",
+            "48: Actor follows the player!",
+            "49: ???",
+            "50: ???",
+            "51: Hiding in grass mound",
+            "52: Hiding in dirt mound",
+            "53: Hiding in dirt mound",
+            "54: Hiding in grass mound",
+            "55: Faces the direction the player moves.",
+            "56: Faces the direction the player moves.",
+            "57: Faces the direction the player moves.",
+            "58: ???",
+            "59: ???",
+            "60: ???",
+            "61: ???",
+            "62: ???",
+            "63: ???",
+            "64: ???",
+            "65: ???",
+            "66: ???",
+            "67: ???",
+            "68: ???",
+            "69: ???",
+            "70: ???",
+            "71: ???",
+            "72: ???",
+            "73: ???",
+            "74: ???",
+            "75: ???",
+            "76: ???",
+            "77: ???",
+            "78: ???",
+            "79: ???",
+            "80: ???",
+            "81: ???",
+            "82: ???",
+            "83: ???",
+            "84: ???",
+            "85: ???"});
+            this.npcMovementDropdown.Location = new System.Drawing.Point(229, 218);
+            this.npcMovementDropdown.Name = "npcMovementDropdown";
+            this.npcMovementDropdown.Size = new System.Drawing.Size(289, 22);
+            this.npcMovementDropdown.TabIndex = 105;
+            // 
+            // npcBehaviorDropdown
+            // 
+            this.npcBehaviorDropdown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.npcBehaviorDropdown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.npcBehaviorDropdown.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.npcBehaviorDropdown.FormattingEnabled = true;
+            this.npcBehaviorDropdown.Items.AddRange(new object[] {
+            "0: None",
+            "1: \"Eyes meet\" in facing direction",
+            "2: \"Eyes Meet\" in ANY direction",
+            "3: \"Eyes Meet\" only if interacted with",
+            "4: Look perpendicular 3 times after param 1 steps",
+            "5: Spin counterclockwise after param 1 steps",
+            "6: Spin clockwise after param 1 steps ",
+            "7: Constantly spin counterclockwise",
+            "8: Constantly spin clockwise",
+            "9: ???",
+            "10: ???",
+            "11: ???",
+            "12: Take param 1 steps when B is presssed",
+            "13: Speed up when the player holds B",
+            "14: Like #4. Speed up if player holds B",
+            "15: Spin after param1 steps. Speed up if player holds B",
+            "16: ???",
+            "17: Like #7. Speed up if player holds B. ",
+            "18: Like #8. Speed up if player holds B.",
+            "19: ???",
+            "20: ???"});
+            this.npcBehaviorDropdown.Location = new System.Drawing.Point(229, 188);
+            this.npcBehaviorDropdown.Name = "npcBehaviorDropdown";
+            this.npcBehaviorDropdown.Size = new System.Drawing.Size(289, 22);
+            this.npcBehaviorDropdown.TabIndex = 107;
+            // 
+            // label58
+            // 
+            this.label58.AutoSize = true;
+            this.label58.Location = new System.Drawing.Point(149, 192);
+            this.label58.Name = "label58";
+            this.label58.Size = new System.Drawing.Size(60, 16);
+            this.label58.TabIndex = 106;
+            this.label58.Text = "Behavior:";
+            // 
+            // label59
+            // 
+            this.label59.AutoSize = true;
+            this.label59.Location = new System.Drawing.Point(149, 164);
+            this.label59.Name = "label59";
+            this.label59.Size = new System.Drawing.Size(79, 16);
+            this.label59.TabIndex = 108;
+            this.label59.Text = "(sight range)";
+            // 
+            // npcParam1NumberBox
+            // 
+            this.npcParam1NumberBox.Location = new System.Drawing.Point(311, 160);
+            this.npcParam1NumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.npcParam1NumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.npcParam1NumberBox.Name = "npcParam1NumberBox";
+            this.npcParam1NumberBox.Size = new System.Drawing.Size(58, 22);
+            this.npcParam1NumberBox.TabIndex = 110;
+            this.npcParam1NumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(247, 162);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(60, 16);
+            this.label60.TabIndex = 109;
+            this.label60.Text = "Param 1:";
+            // 
+            // npcParam2NumberBox
+            // 
+            this.npcParam2NumberBox.Location = new System.Drawing.Point(460, 160);
+            this.npcParam2NumberBox.Maximum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            0});
+            this.npcParam2NumberBox.Minimum = new decimal(new int[] {
+            30000,
+            0,
+            0,
+            -2147483648});
+            this.npcParam2NumberBox.Name = "npcParam2NumberBox";
+            this.npcParam2NumberBox.Size = new System.Drawing.Size(58, 22);
+            this.npcParam2NumberBox.TabIndex = 112;
+            this.npcParam2NumberBox.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(396, 162);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(60, 16);
+            this.label61.TabIndex = 111;
+            this.label61.Text = "Param 2:";
+            // 
             // OverworldEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -2444,7 +2648,6 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.npcIDNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcSightRangeNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcDirectionNumberBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.npcMovementPermissionsNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcScriptNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.npcFlagNumberBox)).EndInit();
             this.furnitureTab.ResumeLayout(false);
@@ -2492,6 +2695,8 @@ namespace NewEditor.Forms
             ((System.ComponentModel.ISupportInitialize)(this.unk3NumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.flagsNumberBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cameraNumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npcParam1NumberBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.npcParam2NumberBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2533,7 +2738,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.NumericUpDown npcDirectionNumberBox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown npcMovementPermissionsNumberBox;
         private System.Windows.Forms.NumericUpDown npcScriptNumberBox;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
@@ -2645,5 +2849,13 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button addStaticScriptButton;
         private System.Windows.Forms.Button addDynamicScriptButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox npcMovementDropdown;
+        private System.Windows.Forms.ComboBox npcBehaviorDropdown;
+        private System.Windows.Forms.Label label58;
+        private System.Windows.Forms.Label label59;
+        private System.Windows.Forms.NumericUpDown npcParam2NumberBox;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.NumericUpDown npcParam1NumberBox;
+        private System.Windows.Forms.Label label60;
     }
 }

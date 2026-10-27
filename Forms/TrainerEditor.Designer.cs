@@ -53,6 +53,7 @@ namespace NewEditor.Forms
             this.uniqueMovesCheckBox = new System.Windows.Forms.CheckBox();
             this.heldItemsCheckBox = new System.Windows.Forms.CheckBox();
             this.pokemonGroupBox = new System.Windows.Forms.GroupBox();
+            this.pokeNatureLabel = new System.Windows.Forms.Label();
             this.movePokemonDownButton = new System.Windows.Forms.Button();
             this.movePokemonUpButton = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
@@ -89,7 +90,8 @@ namespace NewEditor.Forms
             this.exportAIScriptButton = new System.Windows.Forms.Button();
             this.label17 = new System.Windows.Forms.Label();
             this.aiScriptFileNumberBox = new System.Windows.Forms.NumericUpDown();
-            this.pokeNatureLabel = new System.Windows.Forms.Label();
+            this.copyTrDataButton = new System.Windows.Forms.Button();
+            this.pasteTrDataButton = new System.Windows.Forms.Button();
             this.trainerDataGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.aiNumberBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.prizeMoneyNumberBox)).BeginInit();
@@ -408,6 +410,15 @@ namespace NewEditor.Forms
             this.pokemonGroupBox.TabStop = false;
             this.pokemonGroupBox.Text = "Pokemon";
             // 
+            // pokeNatureLabel
+            // 
+            this.pokeNatureLabel.AutoSize = true;
+            this.pokeNatureLabel.Location = new System.Drawing.Point(140, 184);
+            this.pokeNatureLabel.Name = "pokeNatureLabel";
+            this.pokeNatureLabel.Size = new System.Drawing.Size(15, 16);
+            this.pokeNatureLabel.TabIndex = 97;
+            this.pokeNatureLabel.Text = "()";
+            // 
             // movePokemonDownButton
             // 
             this.movePokemonDownButton.Location = new System.Drawing.Point(50, 125);
@@ -583,6 +594,7 @@ namespace NewEditor.Forms
             0,
             0,
             0});
+            this.pokemonFormNumberBox.ValueChanged += new System.EventHandler(this.pokemonFormNumberBox_ValueChanged);
             // 
             // pokemonMove2Dropdown
             // 
@@ -933,14 +945,26 @@ namespace NewEditor.Forms
             this.aiScriptFileNumberBox.Size = new System.Drawing.Size(60, 22);
             this.aiScriptFileNumberBox.TabIndex = 0;
             // 
-            // pokeNatureLabel
+            // copyTrDataButton
             // 
-            this.pokeNatureLabel.AutoSize = true;
-            this.pokeNatureLabel.Location = new System.Drawing.Point(140, 184);
-            this.pokeNatureLabel.Name = "pokeNatureLabel";
-            this.pokeNatureLabel.Size = new System.Drawing.Size(15, 16);
-            this.pokeNatureLabel.TabIndex = 97;
-            this.pokeNatureLabel.Text = "()";
+            this.copyTrDataButton.Location = new System.Drawing.Point(12, 435);
+            this.copyTrDataButton.Name = "copyTrDataButton";
+            this.copyTrDataButton.Size = new System.Drawing.Size(80, 30);
+            this.copyTrDataButton.TabIndex = 101;
+            this.copyTrDataButton.Text = "Copy Data";
+            this.copyTrDataButton.UseVisualStyleBackColor = true;
+            this.copyTrDataButton.Click += new System.EventHandler(this.copyTrDataButton_Click);
+            // 
+            // pasteTrDataButton
+            // 
+            this.pasteTrDataButton.Enabled = false;
+            this.pasteTrDataButton.Location = new System.Drawing.Point(98, 435);
+            this.pasteTrDataButton.Name = "pasteTrDataButton";
+            this.pasteTrDataButton.Size = new System.Drawing.Size(90, 30);
+            this.pasteTrDataButton.TabIndex = 102;
+            this.pasteTrDataButton.Text = "Paste Data";
+            this.pasteTrDataButton.UseVisualStyleBackColor = true;
+            this.pasteTrDataButton.Click += new System.EventHandler(this.pasteTrDataButton_Click);
             // 
             // TrainerEditor
             // 
@@ -948,6 +972,8 @@ namespace NewEditor.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(984, 521);
+            this.Controls.Add(this.pasteTrDataButton);
+            this.Controls.Add(this.copyTrDataButton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.label12);
@@ -1047,5 +1073,7 @@ namespace NewEditor.Forms
         private System.Windows.Forms.NumericUpDown aiScriptFileNumberBox;
         private System.Windows.Forms.Button importAIScriptButton;
         private System.Windows.Forms.Label pokeNatureLabel;
+        private System.Windows.Forms.Button copyTrDataButton;
+        private System.Windows.Forms.Button pasteTrDataButton;
     }
 }

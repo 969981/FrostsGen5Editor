@@ -58,7 +58,7 @@ namespace NewEditor.Data.NARCTypes
 
         public byte mapType;
         public byte unknown1;
-        public short texture;
+        public short areaDataID;
         public short matrix;
         public short scriptFile;
         public short levelScripts;
@@ -97,7 +97,7 @@ namespace NewEditor.Data.NARCTypes
         {
             mapType = bytes[0];
             unknown1 = bytes[1];
-            texture = (short)HelperFunctions.ReadShort(bytes, 2);
+            areaDataID = (short)HelperFunctions.ReadShort(bytes, 2);
             matrix = (short)HelperFunctions.ReadShort(bytes, 4);
             scriptFile = (short)HelperFunctions.ReadShort(bytes, 6);
             levelScripts = (short)HelperFunctions.ReadShort(bytes, 8);
@@ -130,7 +130,7 @@ namespace NewEditor.Data.NARCTypes
             if (bytes.Length != 48) return;
             bytes[0] = mapType;
             bytes[1] = unknown1;
-            HelperFunctions.WriteShort(bytes, 2, texture);
+            HelperFunctions.WriteShort(bytes, 2, areaDataID);
             HelperFunctions.WriteShort(bytes, 4, matrix);
             HelperFunctions.WriteShort(bytes, 6, scriptFile);
             HelperFunctions.WriteShort(bytes, 8, levelScripts);

@@ -127,14 +127,20 @@ namespace NewEditor.Forms
             if (pokemonListBox.SelectedItem is TrainerPokemon p)
             {
                 pokemonIDDropdown.SelectedIndex = p.pokemonID;
+                int pid = p.pokemonID;
+                if (p.form != 0)
+                {
+                    int id = pokemonNARC.pokemon.FindIndex(p2 => p2.nameID == pid && p2.formID == p.form);
+                    if (id > 0) pid = id;
+                }
                 pokemonFormNumberBox.Value = p.form;
                 pokemonLevelNumberBox.Value = p.level;
 
                 pokemonAbilityDropdown.Items.Clear();
                 pokemonAbilityDropdown.Items.Add("1 or 2");
-                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[p.pokemonID].ability1]);
-                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[p.pokemonID].ability2]);
-                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[p.pokemonID].ability3]);
+                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[pid].ability1]);
+                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[pid].ability2]);
+                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[pid].ability3]);
                 pokemonAbilityDropdown.SelectedIndex = p.ability;
 
                 pokemonIVsNumberBox.Value = p.IVs;
@@ -214,6 +220,28 @@ namespace NewEditor.Forms
                         if (pokemonMove2Dropdown.SelectedIndex >= 0) p.moves[1] = (short)pokemonMove2Dropdown.SelectedIndex;
                         if (pokemonMove3Dropdown.SelectedIndex >= 0) p.moves[2] = (short)pokemonMove3Dropdown.SelectedIndex;
                         if (pokemonMove4Dropdown.SelectedIndex >= 0) p.moves[3] = (short)pokemonMove4Dropdown.SelectedIndex;
+                    }
+                    else if (tr.uniqueMoves && !oldUniqueMoves)
+                    {
+                        foreach (TrainerPokemon trpoke in tr.pokemon.pokemon)
+                        {
+                            for (int i = 0; i < 4; i++) trpoke.moves[i] = 0;
+                            int pid = trpoke.pokemonID;
+                            if (pokemonFormNumberBox.Value != 0)
+                            {
+                                int id = pokemonNARC.pokemon.FindIndex(p2 => p2.nameID == pid && p2.formID == pokemonFormNumberBox.Value);
+                                if (id > 0) pid = id;
+                            }
+                            List<LevelUpMoveSlot> moves = pokemonNARC.pokemon[pid].levelUpMoves.moves;
+                            for (int i = moves.Count - 1, j = 0; i >= 0 && j < 4; i--)
+                            {
+                                if (moves[i].level <= trpoke.level)
+                                {
+                                    trpoke.moves[j] = moves[i].moveID;
+                                    j++;
+                                }
+                            }
+                        }
                     }
                     else for (int i = 0; i < 4; i++) p.moves[i] = 0;
                 }
@@ -463,6 +491,59 @@ namespace NewEditor.Forms
             }
 
             return (int)(((seed >> 32) & 0xFFFFFFFF) >> 16);
+        }
+
+        private void pokemonFormNumberBox_ValueChanged(object sender, EventArgs e)
+        {
+            if (pokemonListBox.SelectedItem is TrainerPokemon p)
+            {
+                int pid = p.pokemonID;
+                if (pokemonFormNumberBox.Value != 0)
+                {
+                    int id = pokemonNARC.pokemon.FindIndex(p2 => p2.nameID == pid && p2.formID == pokemonFormNumberBox.Value);
+                    if (id > 0) pid = id;
+                }
+
+                int storeAbil = pokemonAbilityDropdown.SelectedIndex;
+
+                pokemonAbilityDropdown.Items.Clear();
+                pokemonAbilityDropdown.Items.Add("1 or 2");
+                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[pid].ability1]);
+                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[pid].ability2]);
+                pokemonAbilityDropdown.Items.Add(textNARC.textFiles[VersionConstants.AbilityNameTextFileID].text[pokemonNARC.pokemon[pid].ability3]);
+                pokemonAbilityDropdown.SelectedIndex = storeAbil;
+            }
+        }
+
+        int copyTrainerID = -1;
+
+        private void copyTrDataButton_Click(object sender, EventArgs e)
+        {
+            if (trainerNameDropdown.SelectedItem is TrainerEntry tr)
+            {
+                copyTrainerID = trainerNameDropdown.SelectedIndex;
+                pasteTrDataButton.Enabled = true;
+            }
+        }
+
+        private void pasteTrDataButton_Click(object sender, EventArgs e)
+        {
+            if (trainerNameDropdown.SelectedItem is TrainerEntry tr)
+            {
+                if (trainerNameDropdown.SelectedIndex > 0)
+                {
+                    tr.bytes = new List<byte>(trainerNARC.trainers[copyTrainerID].bytes).ToArray();
+                    tr.pokemon.bytes = new List<byte>(trainerPokeNARC.pokemonGroups[copyTrainerID].bytes).ToArray();
+                    tr.ReadData();
+                    tr.pokemon.ReadData();
+
+                    for (int i = 0; i < tr.dialogue.Count; i++)
+                    {
+                        tr.dialogue[i] = trainerNARC.trainers[copyTrainerID].dialogue[i];
+                    }
+                    LoadTrainerIntoEditor(sender, e);
+                }
+            }
         }
     }
 }

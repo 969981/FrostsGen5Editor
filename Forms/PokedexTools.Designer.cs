@@ -42,6 +42,9 @@ namespace NewEditor.Forms
             this.syncHabitatsButton = new System.Windows.Forms.Button();
             this.statusLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.dexTotalLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.locateMonTextBox = new System.Windows.Forms.TextBox();
             this.regionalGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +78,9 @@ namespace NewEditor.Forms
             // regionalGroupBox
             // 
             this.regionalGroupBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.regionalGroupBox.Controls.Add(this.locateMonTextBox);
+            this.regionalGroupBox.Controls.Add(this.label2);
+            this.regionalGroupBox.Controls.Add(this.dexTotalLabel);
             this.regionalGroupBox.Controls.Add(this.regionalNameDropdown);
             this.regionalGroupBox.Controls.Add(this.addRegionalButton);
             this.regionalGroupBox.Controls.Add(this.clearRegionalButton);
@@ -177,6 +183,32 @@ namespace NewEditor.Forms
             this.label1.TabIndex = 88;
             this.label1.Text = "(More features may be\r\nadded in the future)";
             // 
+            // dexTotalLabel
+            // 
+            this.dexTotalLabel.AutoSize = true;
+            this.dexTotalLabel.Location = new System.Drawing.Point(208, 21);
+            this.dexTotalLabel.Name = "dexTotalLabel";
+            this.dexTotalLabel.Size = new System.Drawing.Size(42, 16);
+            this.dexTotalLabel.TabIndex = 92;
+            this.dexTotalLabel.Text = "Total: ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(208, 53);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(54, 16);
+            this.label2.TabIndex = 93;
+            this.label2.Text = "Locate: ";
+            // 
+            // locateMonTextBox
+            // 
+            this.locateMonTextBox.Location = new System.Drawing.Point(258, 50);
+            this.locateMonTextBox.Name = "locateMonTextBox";
+            this.locateMonTextBox.Size = new System.Drawing.Size(100, 22);
+            this.locateMonTextBox.TabIndex = 94;
+            this.locateMonTextBox.TextChanged += new System.EventHandler(this.locateMonTextBox_TextChanged);
+            // 
             // PokedexTools
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -192,6 +224,7 @@ namespace NewEditor.Forms
             this.Name = "PokedexTools";
             this.Text = "Pokedex Tools";
             this.regionalGroupBox.ResumeLayout(false);
+            this.regionalGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,5 +244,8 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button syncHabitatsButton;
         private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox locateMonTextBox;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label dexTotalLabel;
     }
 }

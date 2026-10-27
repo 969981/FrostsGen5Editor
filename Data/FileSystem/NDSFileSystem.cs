@@ -77,11 +77,13 @@ namespace NewEditor.Data
         public ChildPokemonNARC childPokemonNarc;
         public MoveDataNARC moveDataNarc;
         public ItemDataNARC itemDataNarc;
+        public ItemSpriteNARC itemSpriteNarc;
         public MoveAnimationNARC moveAnimationNarc;
         public MoveAnimationNARC moveAnimationExtraNarc;
         public ZoneDataNARC zoneDataNarc;
         public MapMatrixNARC mapMatrixNarc;
         public MapFilesNARC mapFilesNarc;
+        public MapTexturesNARC mapTexturesNarc;
         public ScriptNARC scriptNarc;
         public TrTextEntriesNARC trTextEntriesNarc;
         public TrTextIndexNARC trTextIndicesNarc;
@@ -96,6 +98,11 @@ namespace NewEditor.Data
         public KeyboardNARC keyboardNarc;
         public XPCurveNARC xpCurveNarc;
         public HiddenGrottoNARC hiddenGrottoNarc;
+        public MapTexturesNARC exteriorTexturesNarc;
+        public MapTexturesNARC interiorTexturesNarc;
+        public BuildingContainerNARC exteriorBuildingsNarc;
+        public BuildingContainerNARC interiorBuildingsNarc;
+        public NPCSpriteNARC npcSpriteNarc;
 
         //Read from rom file
         public static NDSFileSystem FromRom(FileStream fs, bool setEditorNarcs = false)
@@ -125,16 +132,23 @@ namespace NewEditor.Data
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
                 { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
+                { MainEditor.exteriorBuildingsNarcID, typeof(BuildingContainerNARC) },
+                { MainEditor.exteriorTexturesNarcID, typeof(MapTexturesNARC) },
                 { MainEditor.habitatListNarcID, typeof(HabitatListNARC) },
                 { MainEditor.hiddenGrottoNarcID, typeof(HiddenGrottoNARC) },
+                { MainEditor.interiorBuildingsNarcID, typeof(BuildingContainerNARC) },
+                { MainEditor.interiorTexturesNarcID, typeof(MapTexturesNARC) },
+                { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
+                { MainEditor.itemSpriteNarcID, typeof(ItemSpriteNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
                 { MainEditor.mapModelsNarcID, typeof(MapFilesNARC) },
+                { MainEditor.mapTexturesNarcID, typeof(MapTexturesNARC) },
                 { MainEditor.moveAnimationNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveAnimationExtraNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveDataNarcID, typeof(MoveDataNARC) },
-                { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
+                { MainEditor.npcSpriteNarcID, typeof(NPCSpriteNARC) },
                 { MainEditor.overworldsNarcID, typeof(OverworldObjectsNARC) },
                 { MainEditor.pokemartNarcID, typeof(PokemartNARC) },
                 { MainEditor.pokemartItemCountNarcID, typeof(PokemartItemCountNARC) },
@@ -244,11 +258,13 @@ namespace NewEditor.Data
             result.childPokemonNarc = result.narcs[MainEditor.childPokemonNarcID] as ChildPokemonNARC;
             result.moveDataNarc = result.narcs[MainEditor.moveDataNarcID] as MoveDataNARC;
             result.itemDataNarc = result.narcs[MainEditor.itemDataNarcID] as ItemDataNARC;
+            result.itemSpriteNarc = result.narcs[MainEditor.itemSpriteNarcID] as ItemSpriteNARC;
             result.moveAnimationNarc = result.narcs[MainEditor.moveAnimationNarcID] as MoveAnimationNARC;
             result.moveAnimationExtraNarc = result.narcs[MainEditor.moveAnimationExtraNarcID] as MoveAnimationNARC;
             result.zoneDataNarc = result.narcs[MainEditor.zoneDataNarcID] as ZoneDataNARC;
             result.mapMatrixNarc = result.narcs[MainEditor.mapMatrixNarcID] as MapMatrixNARC;
             result.mapFilesNarc = result.narcs[MainEditor.mapModelsNarcID] as MapFilesNARC;
+            result.mapTexturesNarc = result.narcs[MainEditor.mapTexturesNarcID] as MapTexturesNARC;
             result.scriptNarc = result.narcs[MainEditor.scriptNarcID] as ScriptNARC;
             result.trTextEntriesNarc = result.narcs[MainEditor.trTextEntriesNarcID] as TrTextEntriesNARC;
             result.trTextIndicesNarc = result.narcs[MainEditor.trTextIndicesNarcID] as TrTextIndexNARC;
@@ -258,6 +274,11 @@ namespace NewEditor.Data
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
             result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
             result.AIScriptNarc = result.narcs[MainEditor.AIScriptNarcID] as AIScriptNARC;
+            result.exteriorTexturesNarc = result.narcs[MainEditor.exteriorTexturesNarcID] as MapTexturesNARC;
+            result.interiorTexturesNarc = result.narcs[MainEditor.interiorTexturesNarcID] as MapTexturesNARC;
+            result.exteriorBuildingsNarc = result.narcs[MainEditor.exteriorBuildingsNarcID] as BuildingContainerNARC;
+            result.interiorBuildingsNarc = result.narcs[MainEditor.interiorBuildingsNarcID] as BuildingContainerNARC;
+            result.npcSpriteNarc = result.narcs[MainEditor.npcSpriteNarcID] as NPCSpriteNARC;
             if (result.RomType == RomType.BW2)
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
@@ -319,16 +340,23 @@ namespace NewEditor.Data
                 { MainEditor.encounterNarcID, typeof(EncounterNARC) },
                 { MainEditor.eggMovesNarcID, typeof(EggMoveNARC) },
                 { MainEditor.evolutionNarcID, typeof(EvolutionDataNARC) },
+                { MainEditor.exteriorBuildingsNarcID, typeof(BuildingContainerNARC) },
+                { MainEditor.exteriorTexturesNarcID, typeof(MapTexturesNARC) },
                 { MainEditor.habitatListNarcID, typeof(HabitatListNARC) },
                 { MainEditor.hiddenGrottoNarcID, typeof(HiddenGrottoNARC) },
+                { MainEditor.interiorBuildingsNarcID, typeof(BuildingContainerNARC) },
+                { MainEditor.interiorTexturesNarcID, typeof(MapTexturesNARC) },
+                { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
+                { MainEditor.itemSpriteNarcID, typeof(ItemSpriteNARC) },
                 { MainEditor.keyboardNarcID, typeof(KeyboardNARC) },
                 { MainEditor.levelUpMovesNarcID, typeof(LearnsetNARC) },
                 { MainEditor.mapMatrixNarcID, typeof(MapMatrixNARC) },
                 { MainEditor.mapModelsNarcID, typeof(MapFilesNARC) },
+                { MainEditor.mapTexturesNarcID, typeof(MapTexturesNARC) },
                 { MainEditor.moveAnimationNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveAnimationExtraNarcID, typeof(MoveAnimationNARC) },
                 { MainEditor.moveDataNarcID, typeof(MoveDataNARC) },
-                { MainEditor.itemDataNarcID, typeof(ItemDataNARC) },
+                { MainEditor.npcSpriteNarcID, typeof(NPCSpriteNARC) },
                 { MainEditor.overworldsNarcID, typeof(OverworldObjectsNARC) },
                 { MainEditor.pokemartNarcID, typeof(PokemartNARC) },
                 { MainEditor.pokemartItemCountNarcID, typeof(PokemartItemCountNARC) },
@@ -342,8 +370,8 @@ namespace NewEditor.Data
                 { MainEditor.trTextIndicesNarcID, typeof(TrTextIndexNARC) },
                 { MainEditor.trainerDataNarcID, typeof(TrainerDataNARC) },
                 { MainEditor.trainerPokeNarcID, typeof(TrainerPokeNARC) },
-                { MainEditor.zoneDataNarcID, typeof(ZoneDataNARC) },
                 { MainEditor.xpCurveNarcID, typeof(XPCurveNARC) },
+                { MainEditor.zoneDataNarcID, typeof(ZoneDataNARC) },
             };
             result.overlays = new List<List<byte>>();
             result.files = new List<object>();
@@ -360,7 +388,7 @@ namespace NewEditor.Data
                 result.banner = new List<byte>(File.ReadAllBytes(rootFolder + "/banner.bin"));
                 result.romEnder = new List<byte>(File.ReadAllBytes(rootFolder + "/RomEnder.bin"));
 
-                for (int i = 0; i < result.OverlayCount; i++) result.overlays.Add(new List<byte>(File.ReadAllBytes(rootFolder + $"/overlay/ov_{i:D3}.bin")));
+                for (int i = 0; i < result.OverlayCount; i++) result.overlays.Add(new List<byte>(File.ReadAllBytes(rootFolder + $"/overlay/ov_{i.ToString("D3")}.bin")));
 
                 for (int i = result.OverlayCount; i < result.fat.Count / 8; i++)
                 {
@@ -397,11 +425,13 @@ namespace NewEditor.Data
             result.childPokemonNarc = result.narcs[MainEditor.childPokemonNarcID] as ChildPokemonNARC;
             result.moveDataNarc = result.narcs[MainEditor.moveDataNarcID] as MoveDataNARC;
             result.itemDataNarc = result.narcs[MainEditor.itemDataNarcID] as ItemDataNARC;
+            result.itemSpriteNarc = result.narcs[MainEditor.itemSpriteNarcID] as ItemSpriteNARC;
             result.moveAnimationNarc = result.narcs[MainEditor.moveAnimationNarcID] as MoveAnimationNARC;
             result.moveAnimationExtraNarc = result.narcs[MainEditor.moveAnimationExtraNarcID] as MoveAnimationNARC;
             result.zoneDataNarc = result.narcs[MainEditor.zoneDataNarcID] as ZoneDataNARC;
             result.mapMatrixNarc = result.narcs[MainEditor.mapMatrixNarcID] as MapMatrixNARC;
             result.mapFilesNarc = result.narcs[MainEditor.mapModelsNarcID] as MapFilesNARC;
+            result.mapTexturesNarc = result.narcs[MainEditor.mapTexturesNarcID] as MapTexturesNARC;
             result.scriptNarc = result.narcs[MainEditor.scriptNarcID] as ScriptNARC;
             result.trTextEntriesNarc = result.narcs[MainEditor.trTextEntriesNarcID] as TrTextEntriesNARC;
             result.trTextIndicesNarc = result.narcs[MainEditor.trTextIndicesNarcID] as TrTextIndexNARC;
@@ -411,6 +441,11 @@ namespace NewEditor.Data
             result.encounterNarc = result.narcs[MainEditor.encounterNarcID] as EncounterNARC;
             result.xpCurveNarc = result.narcs[MainEditor.xpCurveNarcID] as XPCurveNARC;
             result.AIScriptNarc = result.narcs[MainEditor.AIScriptNarcID] as AIScriptNARC;
+            result.exteriorTexturesNarc = result.narcs[MainEditor.exteriorTexturesNarcID] as MapTexturesNARC;
+            result.interiorTexturesNarc = result.narcs[MainEditor.interiorTexturesNarcID] as MapTexturesNARC;
+            result.exteriorBuildingsNarc = result.narcs[MainEditor.exteriorBuildingsNarcID] as BuildingContainerNARC;
+            result.interiorBuildingsNarc = result.narcs[MainEditor.interiorBuildingsNarcID] as BuildingContainerNARC;
+            result.npcSpriteNarc = result.narcs[MainEditor.npcSpriteNarcID] as NPCSpriteNARC;
             if (result.RomType == RomType.BW2)
             {
                 result.pokemartNarc = result.narcs[MainEditor.pokemartNarcID] as PokemartNARC;
@@ -520,6 +555,15 @@ namespace NewEditor.Data
         {
             romBytes.AddRange(section);
             while (romBytes.Count % 0x200 != 0) romBytes.Add(0xFF);
+        }
+
+        public byte[] GetDecompressedArm9()
+        {
+            bool alreadyDecompressed = arm9.Count >= 600000;
+            if (alreadyDecompressed) return arm9.ToArray();
+
+            byte[] dec = BLZDecoder.BLZ_DecodePub(arm9.ToArray());
+            return dec;
         }
     }
 }

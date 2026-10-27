@@ -12,6 +12,9 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,11 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,32 +59,134 @@
     <Reference Include="DSDecmp">
       <HintPath>.\DSDecmp.dll</HintPath>
     </Reference>
+    <Reference Include="HelixToolkit, Version=2011.10.1.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\HelixToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.0-preview.6.25358.103\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=8.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.8.0.2\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Forms.DX, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Forms.DX.3.2.0\lib\net48\MonoGame.Forms.DX.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.8.9102.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\lib\net40\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.MediaFoundation.4.0.1\lib\net45\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XAudio2.4.0.1\lib\net45\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=8.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.8.0.1\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.IO.Pipelines, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Pipelines.10.0.0-preview.6.25358.103\lib\net462\System.IO.Pipelines.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Text.Encodings.Web, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.10.0.0-preview.6.25358.103\lib\net462\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Json.10.0.0-preview.6.25358.103\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.RegularExpressions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.RegularExpressions.4.3.1\lib\net463\System.Text.RegularExpressions.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -96,18 +198,56 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Tao.OpenGl, Version=2.1.0.12, Culture=neutral, PublicKeyToken=1ca010269a4501ef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Tao.OpenGl.dll</HintPath>
+    </Reference>
+    <Reference Include="Tao.Platform.Windows, Version=1.0.0.5, Culture=neutral, PublicKeyToken=701104b2da67a104, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\Tao.Platform.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DarkMode.cs" />
-    <Compile Include="Data\BLZDecoder.cs" />
-    <Compile Include="Data\DsDecmp.cs" />
-    <Compile Include="Data\FileFunctions.cs" />
-    <Compile Include="Data\FileNameTable.cs" />
-    <Compile Include="Data\Gen4UnicodeTable.cs" />
-    <Compile Include="Data\HelperFunctions.cs" />
+    <Compile Include="Data\Mapping\export3dtools\Face.cs" />
+    <Compile Include="Data\Mapping\export3dtools\Group.cs" />
+    <Compile Include="Data\Mapping\export3dtools\OBJWriter.cs" />
+    <Compile Include="Data\Mapping\export3dtools\Polygon.cs" />
+    <Compile Include="Data\Mapping\export3dtools\PolygonType.cs" />
+    <Compile Include="Data\Mapping\export3dtools\Quad.cs" />
+    <Compile Include="Data\Mapping\export3dtools\QuadStrip.cs" />
+    <Compile Include="Data\Mapping\export3dtools\Triangle.cs" />
+    <Compile Include="Data\Mapping\export3dtools\TriangleStrip.cs" />
+    <Compile Include="Data\Mapping\MappingUtils.cs" />
+    <Compile Include="Data\Mapping\NSBCA.cs" />
+    <Compile Include="Data\Mapping\nsbmd\MTX44.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMD.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDAnimation.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDGlRenderer.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDLoader.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDMaterial.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDModel.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDObject.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDPalette.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDPolygon.cs" />
+    <Compile Include="Data\Mapping\nsbmd\NSBMDTexture.cs" />
+    <Compile Include="Data\Mapping\NSBTA.cs" />
+    <Compile Include="Data\Mapping\NSBTP.cs" />
+    <Compile Include="Data\Mapping\NSBTXLoader.cs" />
+    <Compile Include="Data\NARCTypes\BuildingContainerNARC.cs" />
+    <Compile Include="Data\NARCTypes\ItemSpriteNARC.cs" />
+    <Compile Include="Data\NARCTypes\NPCSpriteNARC.cs" />
+    <Compile Include="Data\NARCTypes\MapTexturesNARC.cs" />
+    <Compile Include="Data\Utils\BLZDecoder.cs" />
+    <Compile Include="Data\Utils\DsDecmp.cs" />
+    <Compile Include="Data\Utils\EndianBinaryReader.cs" />
+    <Compile Include="Data\Utils\FileFunctions.cs" />
+    <Compile Include="Data\FileSystem\FileNameTable.cs" />
+    <Compile Include="Data\Utils\Gen4UnicodeTable.cs" />
+    <Compile Include="Data\Utils\HelperFunctions.cs" />
     <Compile Include="Data\NARCTypes\ChildPokemonNARC.cs" />
     <Compile Include="Data\NARCTypes\EggMoveNARC.cs" />
     <Compile Include="Data\NARCTypes\HabitatListNARC.cs" />
@@ -118,8 +258,8 @@
     <Compile Include="Data\NARCTypes\TrTextEntriesNARC.cs" />
     <Compile Include="Data\NARCTypes\TrTextIndexNARC.cs" />
     <Compile Include="Data\NARCTypes\PokemartItemCountNARC.cs" />
-    <Compile Include="Data\NDSFileSystem.cs" />
-    <Compile Include="Data\NARC.cs" />
+    <Compile Include="Data\FileSystem\NDSFileSystem.cs" />
+    <Compile Include="Data\FileSystem\NARC.cs" />
     <Compile Include="Data\NARCTypes\LearnsetNARC.cs" />
     <Compile Include="Data\NARCTypes\MapMatrixNARC.cs" />
     <Compile Include="Data\NARCTypes\EvolutionDataNARC.cs" />
@@ -138,14 +278,27 @@
     <Compile Include="Data\NARCTypes\ZoneDataNARC.cs" />
     <Compile Include="Data\NARCTypes\PokemonDataNARC.cs" />
     <Compile Include="Data\NARCTypes\TextNARC.cs" />
-    <Compile Include="Data\PatchingSystem.cs" />
-    <Compile Include="Data\RogueGameModeManager.cs" />
-    <Compile Include="Data\SoundData.cs" />
-    <Compile Include="Data\TestGameModeManager.cs" />
-    <Compile Include="Data\TextHandler.cs" />
-    <Compile Include="Data\TypeShuffler.cs" />
-    <Compile Include="Data\VersionConstants.cs" />
-    <Compile Include="Data\Y9Table.cs" />
+    <Compile Include="Data\FileSystem\PatchingSystem.cs" />
+    <Compile Include="Data\GameModes\RogueGameModeManager.cs" />
+    <Compile Include="Data\FileSystem\SoundData.cs" />
+    <Compile Include="Data\GameModes\TestGameModeManager.cs" />
+    <Compile Include="Data\Utils\TextHandler.cs" />
+    <Compile Include="Data\GameModes\TypeShuffler.cs" />
+    <Compile Include="Data\FileSystem\VersionConstants.cs" />
+    <Compile Include="Data\FileSystem\Y9Table.cs" />
+    <Compile Include="Forms\AnimationTimeline.cs" />
+    <Compile Include="Forms\AnimationTimelinePreview.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\AnimationTimelineControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Forms\MapMatrixEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MapMatrixEditor.Designer.cs">
+      <DependentUpon>MapMatrixEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\PokedexTools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -199,6 +352,12 @@
     </Compile>
     <Compile Include="Forms\FileExplorer.Designer.cs">
       <DependentUpon>FileExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MapEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MapEditor.Designer.cs">
+      <DependentUpon>MapEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PokemartEditor.cs">
       <SubType>Form</SubType>
@@ -274,6 +433,9 @@
     <Compile Include="Forms\TypeSwapEditor.Designer.cs">
       <DependentUpon>TypeSwapEditor.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\MapMatrixEditor.resx">
+      <DependentUpon>MapMatrixEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PokedexTools.resx">
       <DependentUpon>PokedexTools.cs</DependentUpon>
     </EmbeddedResource>
@@ -300,6 +462,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FileExplorer.resx">
       <DependentUpon>FileExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MapEditor.resx">
+      <DependentUpon>MapEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PokemartEditor.resx">
       <DependentUpon>PokemartEditor.cs</DependentUpon>
@@ -369,6 +534,14 @@
     <Content Include="AIScriptCommands.h">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Requests.txt" />
+    <Content Include="Resources\apicula.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\HelixToolkit.dll" />
+    <Content Include="Resources\OpenTK.dll" />
+    <Content Include="Resources\Tao.OpenGl.dll" />
+    <Content Include="Resources\Tao.Platform.Windows.dll" />
     <Content Include="ScriptHeaders\BeaterScriptCommandsBW2.h">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -459,5 +632,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))" />
+    <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\build\MonoGame.Framework.WindowsDX.9000.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\build\MonoGame.Framework.WindowsDX.9000.targets'))" />
   </Target>
+  <Import Project="..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\build\MonoGame.Framework.WindowsDX.9000.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\build\MonoGame.Framework.WindowsDX.9000.targets')" />
 </Project>

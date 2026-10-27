@@ -24,6 +24,7 @@ namespace NewEditor.Data
         public const int BW2_MapFilesNARCID = 8;
         public const int BW2_MapMatriciesNARCID = 9;
         public const int BW2_ZoneDataNARCID = 12;
+        public const int BW2_MapTexturesNARCID = 14;
         public const int BW2_PokemonDataNARCID = 16;
         public const int BW2_XPCurveNARCID = 17;
         public const int BW2_LevelUpMovesNARCID = 18;
@@ -31,6 +32,9 @@ namespace NewEditor.Data
         public const int BW2_ChildPokemonNARCID = 20;
         public const int BW2_MoveDataNARCID = 21;
         public const int BW2_ItemDataNARCID = 24;
+        public const int BW2_ItemSpriteNARCID = 25;
+        public const int BW2_NPCSpriteIndexNARCID = 47;
+        public const int BW2_NPCSpriteNARCID = 48;
         public const int BW2_ScriptNARCID = 56;
         public const int BW2_MoveAnimationNARCID = 65;
         public const int BW2_MoveAnimationExtraNARCID = 66;
@@ -43,6 +47,10 @@ namespace NewEditor.Data
         public const int BW2_OverworldsNARCID = 126;
         public const int BW2_EncountersNARCID = 127;
         public const int BW2_AIScriptNARCID = 169;
+        public const int BW2_ExteriorTexturesNARCID = 174;
+        public const int BW2_InteriorTexturesNARCID = 175;
+        public const int BW2_ExteriorBuildingContainerNARCID = 225;
+        public const int BW2_InteriorBuildingContainerNARCID = 226;
         public const int BW2_HiddenGrottoNARCID = 273;
         public const int BW2_PokemartNARCID = 282;
         public const int BW2_PokemartItemCountNARCID = 283;
@@ -55,6 +63,7 @@ namespace NewEditor.Data
         public const int BW1_MapFilesNARCID = 8;
         public const int BW1_MapMatriciesNARCID = 9;
         public const int BW1_ZoneDataNARCID = 12;
+        public const int BW1_MapTexturesNARCID = 14;
         public const int BW1_PokemonDataNARCID = 16;
         public const int BW1_XPCurveNARCID = 17;
         public const int BW1_LevelUpMovesNARCID = 18;
@@ -62,6 +71,9 @@ namespace NewEditor.Data
         public const int BW1_ChildPokemonNARCID = 20;
         public const int BW1_MoveDataNARCID = 21;
         public const int BW1_ItemDataNARCID = 24;
+        public const int BW1_ItemSpriteNARCID = 25;
+        public const int BW1_NPCSpriteIndexNARCID = 48;
+        public const int BW1_NPCSpriteNARCID = 49;
         public const int BW1_ScriptNARCID = 57;
         public const int BW1_MoveAnimationNARCID = 66;
         public const int BW1_MoveAnimationExtraNARCID = 67;
@@ -73,6 +85,10 @@ namespace NewEditor.Data
         public const int BW1_OverworldsNARCID = 125;
         public const int BW1_EncountersNARCID = 126;
         public const int BW1_AIScriptNARCID = 171;
+        public const int BW1_ExteriorTexturesNARCID = 176;
+        public const int BW1_InteriorTexturesNARCID = 177;
+        public const int BW1_ExteriorBuildingContainerNARCID = 229;
+        public const int BW1_InteriorBuildingContainerNARCID = 230;
         public const int BW1_KeyboardLayoutNARCID = -1;
         public const int BW1_PokemartNARCID = -2;
         public const int BW1_PokemartItemCountNARCID = -3;
@@ -85,8 +101,10 @@ namespace NewEditor.Data
         public static int PokemonNameTextFileID => MainEditor.RomType == RomType.BW2 ? 90 : MainEditor.RomType == RomType.BW1 ? 70 : 237;
         public static int PokemonName2TextFileID => MainEditor.RomType == RomType.BW2 ? 483 : MainEditor.RomType == RomType.BW1 ? 281 : -1;
         public static int AbilityNameTextFileID => MainEditor.RomType == RomType.BW2 ? 374 : MainEditor.RomType == RomType.BW1 ? 182 : 720;
+        public static int AbilityDescTextFileID => MainEditor.RomType == RomType.BW2 ? 375 : MainEditor.RomType == RomType.BW1 ? 183 : -1;
         public static int TypeNameTextFileID => MainEditor.RomType == RomType.BW2 ? 398 : MainEditor.RomType == RomType.BW1 ? 199 : 735;
         public static int ItemNameTextFileID => MainEditor.RomType == RomType.BW2 ? 64 : MainEditor.RomType == RomType.BW1 ? 54 : 222;
+        public static int ItemDescTextFileID => MainEditor.RomType == RomType.BW2 ? 63 : MainEditor.RomType == RomType.BW1 ? 53 : -1;
         public static int MoveNameTextFileID => MainEditor.RomType == RomType.BW2 ? 403 : MainEditor.RomType == RomType.BW1 ? 203 : 750;
         public static int MoveDescriptionTextFileID => MainEditor.RomType == RomType.BW2 ? 402 : MainEditor.RomType == RomType.BW1 ? 202 : 749;
         public static int MoveUsageTextFileID => MainEditor.RomType == RomType.BW2 ? 16 : MainEditor.RomType == RomType.BW1 ? 13 : 3;

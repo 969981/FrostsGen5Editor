@@ -685,9 +685,9 @@ void CMD_15b(short p0);
 //TODO
 void CMD_15c();
 //TODO
-void NetConnectWiFiClub();
+void CMD_15d(short p0);
 //TODO
-void NetConnectGTS();
+void CMD_15e();
 //TODO
 void CMD_15F();
 //TODO

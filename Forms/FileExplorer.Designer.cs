@@ -41,6 +41,7 @@ namespace NewEditor.Forms
             this.unpackNarcButton = new System.Windows.Forms.Button();
             this.statusText = new System.Windows.Forms.Label();
             this.detectCompressionCheckBox = new System.Windows.Forms.CheckBox();
+            this.bulkImportButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // fileTree
@@ -145,11 +146,22 @@ namespace NewEditor.Forms
             this.detectCompressionCheckBox.UseVisualStyleBackColor = true;
             this.detectCompressionCheckBox.Visible = false;
             // 
+            // bulkImportButton
+            // 
+            this.bulkImportButton.Location = new System.Drawing.Point(278, 409);
+            this.bulkImportButton.Name = "bulkImportButton";
+            this.bulkImportButton.Size = new System.Drawing.Size(110, 40);
+            this.bulkImportButton.TabIndex = 9;
+            this.bulkImportButton.Text = "Bulk Import Overlays";
+            this.bulkImportButton.UseVisualStyleBackColor = true;
+            this.bulkImportButton.Click += new System.EventHandler(this.bulkImportButton_Click);
+            // 
             // FileExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 481);
+            this.Controls.Add(this.bulkImportButton);
             this.Controls.Add(this.detectCompressionCheckBox);
             this.Controls.Add(this.statusText);
             this.Controls.Add(this.unpackNarcButton);
@@ -180,5 +192,6 @@ namespace NewEditor.Forms
         private System.Windows.Forms.Button unpackNarcButton;
         private System.Windows.Forms.Label statusText;
         private System.Windows.Forms.CheckBox detectCompressionCheckBox;
+        private System.Windows.Forms.Button bulkImportButton;
     }
 }

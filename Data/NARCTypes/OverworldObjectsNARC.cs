@@ -155,7 +155,7 @@ namespace NewEditor.Data.NARCTypes
                     id = (short)HelperFunctions.ReadShort(bytes, readPos),
                     sprite = (short)HelperFunctions.ReadShort(bytes, readPos + 2),
                     movementPermissions = (short)HelperFunctions.ReadShort(bytes, readPos + 4),
-                    permissions2 = (short)HelperFunctions.ReadShort(bytes, readPos + 6),
+                    movementBehavior = (short)HelperFunctions.ReadShort(bytes, readPos + 6),
                     flag = (short)HelperFunctions.ReadShort(bytes, readPos + 8),
                     scriptUsed = (short)HelperFunctions.ReadShort(bytes, readPos + 10),
                     defaultDirection = (short)HelperFunctions.ReadShort(bytes, readPos + 12),
@@ -280,7 +280,7 @@ namespace NewEditor.Data.NARCTypes
                 newBytes.AddRange(BitConverter.GetBytes(o.id));
                 newBytes.AddRange(BitConverter.GetBytes(o.sprite));
                 newBytes.AddRange(BitConverter.GetBytes(o.movementPermissions));
-                newBytes.AddRange(BitConverter.GetBytes(o.permissions2));
+                newBytes.AddRange(BitConverter.GetBytes(o.movementBehavior));
                 newBytes.AddRange(BitConverter.GetBytes(o.flag));
                 newBytes.AddRange(BitConverter.GetBytes(o.scriptUsed));
                 newBytes.AddRange(BitConverter.GetBytes(o.defaultDirection));
@@ -385,7 +385,7 @@ namespace NewEditor.Data.NARCTypes
         public short id;
         public short sprite;
         public short movementPermissions;
-        public short permissions2;
+        public short movementBehavior;
         public short flag;
         public short scriptUsed;
         public short defaultDirection;

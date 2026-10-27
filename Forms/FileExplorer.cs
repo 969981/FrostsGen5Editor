@@ -35,6 +35,13 @@ namespace NewEditor.Forms
             {
                 AddNode("overlays/ov_" + i.ToString("D3"), true);
             }
+            AddNode("ftc/header.bin", true);
+            AddNode("ftc/arm9.bin", true);
+            AddNode("ftc/y9.bin", true);
+            AddNode("ftc/arm7.bin", true);
+            AddNode("ftc/fnt.bin", true);
+            AddNode("ftc/fat.bin", true);
+            AddNode("ftc/banner.bin", true);
             foreach (string str in files)
             {
                 AddNode(str, true);
@@ -43,7 +50,19 @@ namespace NewEditor.Forms
 
         void AddNode(string path, bool leafNode)
         {
-            if (path.Contains('/'))
+            if (path.Contains("ftc/"))
+            {
+                string sub = path.Substring(0, path.LastIndexOf('/'));
+                if (!nodes.ContainsKey(sub)) AddNode(sub, false);
+
+                TreeNode node = new TreeNode(path.Substring(path.LastIndexOf('/') + 1));
+                node.ImageIndex = 2;
+                node.SelectedImageIndex = node.ImageIndex;
+                nodes.Add(path, node);
+                reverseNodes.Add(node, path);
+                nodes[sub].Nodes.Add(node);
+            }
+            else if (path.Contains('/'))
             {
                 string sub = path.Substring(0, path.LastIndexOf('/'));
                 if (!nodes.ContainsKey(sub)) AddNode(sub, false);
@@ -70,7 +89,94 @@ namespace NewEditor.Forms
         {
             if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0)
             {
-                if (fileTree.SelectedNode.Text.Contains("ov_"))
+                if (fileTree.SelectedNode.Text.Contains("arm9.bin"))
+                {
+                    var obj = MainEditor.fileSystem.arm9;
+                    string text = "Type: arm9";
+                    text += "\nSize: 0x" + obj.Count.ToString("X");
+                    text += "\nCompressed: " + (obj.Count < 600000).ToString();
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = true;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                    compressOverlayButton.Text = obj.Count < 600000 ? "Decompress" : "Compress";
+                }
+                else if (fileTree.SelectedNode.Text.Contains("y9.bin"))
+                {
+                    var obj = MainEditor.fileSystem.y9;
+                    string text = "Type: y9";
+                    text += "\nSize: 0x" + obj.bytes.Length.ToString("X");
+                    text += "\nEntries: " + obj.entries.Count;
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                }
+                else if (fileTree.SelectedNode.Text.Contains("arm7.bin"))
+                {
+                    var obj = MainEditor.fileSystem.arm7;
+                    string text = "Type: arm7";
+                    text += "\nSize: 0x" + obj.Count.ToString("X");
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                }
+                else if (fileTree.SelectedNode.Text.Contains("fnt.bin"))
+                {
+                    var obj = MainEditor.fileSystem.fnt;
+                    string text = "Type: File Name Table";
+                    text += "\nSize: 0x" + obj.data.Length.ToString("X");
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                }
+                else if (fileTree.SelectedNode.Text.Contains("fat.bin"))
+                {
+                    var obj = MainEditor.fileSystem.fat;
+                    string text = "Type: File Association Table";
+                    text += "\nSize: 0x" + obj.Count.ToString("X");
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                }
+                else if (fileTree.SelectedNode.Text.Contains("header.bin"))
+                {
+                    var obj = MainEditor.fileSystem.romHeader;
+                    string text = "Type: Rom Header";
+                    text += "\nSize: 0x" + obj.Count.ToString("X");
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                }
+                else if (fileTree.SelectedNode.Text.Contains("banner.bin"))
+                {
+                    var obj = MainEditor.fileSystem.banner;
+                    string text = "Type: Banner";
+                    text += "\nSize: 0x" + obj.Count.ToString("X");
+
+                    fileText.Text = text;
+                    compressOverlayButton.Visible = false;
+                    detectCompressionCheckBox.Visible = false;
+                    unpackNarcButton.Visible = false;
+                    packNarcButton.Visible = false;
+                }
+                else if (fileTree.SelectedNode.Text.Contains("ov_"))
                 {
                     int id = int.Parse(fileTree.SelectedNode.Text.Substring(3));
                     var y9 = MainEditor.fileSystem.y9.entries[id];
@@ -135,7 +241,84 @@ namespace NewEditor.Forms
         {
             if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0)
             {
-                if (fileTree.SelectedNode.Text.Contains("ov_"))
+                if (fileTree.SelectedNode.Text.Contains("arm9.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "arm9.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.arm9.ToArray());
+                        statusText.Text = "Extracted arm9 - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("y9.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "y9.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.y9.bytes.ToArray());
+                        statusText.Text = "Extracted y9 - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("arm7.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "arm7.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.arm7.ToArray());
+                        statusText.Text = "Extracted arm7 - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("fnt.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "fnt.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.fnt.data.ToArray());
+                        statusText.Text = "Extracted fnt - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("fat.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "fat.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.fat.ToArray());
+                        statusText.Text = "Extracted fat - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("header.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "header.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.romHeader.ToArray());
+                        statusText.Text = "Extracted header - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("banner.bin"))
+                {
+                    SaveFileDialog save = new SaveFileDialog();
+                    save.FileName = "banner.bin";
+
+                    if (save.ShowDialog() == DialogResult.OK)
+                    {
+                        File.WriteAllBytes(save.FileName, MainEditor.fileSystem.banner.ToArray());
+                        statusText.Text = "Extracted banner - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("ov_"))
                 {
                     int id = int.Parse(fileTree.SelectedNode.Text.Substring(3));
 
@@ -180,7 +363,25 @@ namespace NewEditor.Forms
 
         private void compressOverlayButton_Click(object sender, EventArgs e)
         {
-            if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0 && fileTree.SelectedNode.Text.Contains("ov_"))
+            if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0 && fileTree.SelectedNode.Text.Contains("arm9.bin"))
+            {
+                var arm = MainEditor.fileSystem.arm9;
+                bool compressed = arm.Count < 600000;
+
+                if (compressed)
+                {
+                    MainEditor.fileSystem.arm9 = new List<byte>(BLZDecoder.BLZ_DecodePub(arm.ToArray()));
+                    statusText.Text = "Decompressed arm9 - " + DateTime.Now.StatusText();
+                }
+                else
+                {
+                    MainEditor.fileSystem.arm9 = new List<byte>(BLZDecoder.BLZ_EncodePub(arm.ToArray(), true));
+                    statusText.Text = "Compressed arm9 - " + DateTime.Now.StatusText();
+                }
+
+                fileTree_AfterSelect(null, null);
+            }
+            else if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0 && fileTree.SelectedNode.Text.Contains("ov_"))
             {
                 int id = int.Parse(fileTree.SelectedNode.Text.Substring(3));
                 var y9 = MainEditor.fileSystem.y9.entries[id];
@@ -211,7 +412,98 @@ namespace NewEditor.Forms
         {
             if (fileTree.SelectedNode != null && fileTree.SelectedNode.Nodes.Count == 0)
             {
-                if (fileTree.SelectedNode.Text.Contains("ov_"))
+                if (fileTree.SelectedNode.Text.Contains("arm9.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "arm9.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.arm9.Count && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.arm9 = b.ToList();
+                        statusText.Text = "Imported arm9 - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("y9.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "y9.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.y9.bytes.Length && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.y9 = new Y9Table(b);
+                        statusText.Text = "Imported y9 - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("arm7.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "arm7.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.arm7.Count && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.arm7 = b.ToList();
+                        statusText.Text = "Imported arm7 - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("fnt.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "fnt.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.fnt.data.Length && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.fnt = new FileNameTable(b);
+                        statusText.Text = "Imported fnt - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("fat.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "fat.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.fat.Count && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.fat = b.ToList();
+                        statusText.Text = "Imported fat - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("header.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "header.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.romHeader.Count && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.romHeader = b.ToList();
+                        statusText.Text = "Imported header - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("banner.bin"))
+                {
+                    OpenFileDialog open = new OpenFileDialog();
+                    open.FileName = "banner.bin";
+                    if (open.ShowDialog() == DialogResult.OK)
+                    {
+                        byte[] b = File.ReadAllBytes(open.FileName);
+                        if (b.Length != MainEditor.fileSystem.banner.Count && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+                        MainEditor.fileSystem.banner = b.ToList();
+                        statusText.Text = "Imported banner - " + DateTime.Now.StatusText();
+                    }
+                }
+                else if (fileTree.SelectedNode.Text.Contains("ov_"))
                 {
                     int id = int.Parse(fileTree.SelectedNode.Text.Substring(3));
                     var y9 = MainEditor.fileSystem.y9.entries[id];
@@ -222,6 +514,10 @@ namespace NewEditor.Forms
                     if (open.ShowDialog() == DialogResult.OK)
                     {
                         byte[] b = File.ReadAllBytes(open.FileName);
+
+                        if (b.Length != MainEditor.fileSystem.overlays[id].Count && MessageBox.Show("The selected file's length does not match the length of the rom's file.\nIs this intended?", "File size mismatch!", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+
                         bool shouldCompress = false;
                         if (!detectCompressionCheckBox.Checked) shouldCompress = y9.compressed;
                         else shouldCompress = HelperFunctions.ReadInt(b, b.Length - 4) > 0;
@@ -474,6 +770,66 @@ namespace NewEditor.Forms
                     statusText.Text = "Imported narc " + reverseNodes[fileTree.SelectedNode] + " - " + DateTime.Now.StatusText();
                     MessageBox.Show("Successfully packed Narc file");
                 }
+            }
+        }
+
+        string bulkImportLocation = "";
+        private void bulkImportButton_Click(object sender, EventArgs e)
+        {
+            if (bulkImportLocation == "")
+            {
+                FolderBrowserDialog prompt = new FolderBrowserDialog();
+                if (prompt.ShowDialog() == DialogResult.OK)
+                {
+                    bulkImportLocation = prompt.SelectedPath;
+                }
+                else return;
+                if (!Directory.Exists(prompt.SelectedPath))
+                    Directory.CreateDirectory(prompt.SelectedPath);
+            }
+
+            int importCount = 0;
+            bool importedArm = false;
+            for (int i = 0; i < MainEditor.fileSystem.overlays.Count; i++)
+            {
+                if (File.Exists(bulkImportLocation + "/ov_" + i.ToString("D3") + ".bin"))
+                {
+                    byte[] b = File.ReadAllBytes(bulkImportLocation + "/ov_" + i.ToString("D3") + ".bin");
+                    if (b.Length == MainEditor.fileSystem.overlays[i].Count)
+                    {
+                        MainEditor.fileSystem.overlays[i] = new List<byte>(b);
+                        importCount++;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to import overlay " + i + " due to file size mismatch");
+                    }
+                }
+            }
+            if (File.Exists(bulkImportLocation + "/arm9.bin"))
+            {
+                byte[] b = File.ReadAllBytes(bulkImportLocation + "/arm9.bin");
+                if (b.Length == MainEditor.fileSystem.arm9.Count)
+                {
+                    MainEditor.fileSystem.arm9 = new List<byte>(b);
+                    importedArm = true;
+                }
+                else
+                {
+                    MessageBox.Show("Failed to import arm9 due to file size mismatch");
+                }
+            }
+            if (importCount == 0 && !importedArm)
+                MessageBox.Show("No overlays found to import");
+            else if (importCount > 0)
+            {
+                MessageBox.Show("Successfully imported " + importCount + " overlays" + (importedArm ? " and arm9" : ""));
+                statusText.Text = "Imported " + importCount + " overlays" + (importedArm ? " and arm9" : "") + " - " + DateTime.Now.StatusText();
+            }
+            else
+            {
+                MessageBox.Show("Successfully imported arm9");
+                statusText.Text = "Imported arm9" + " - " + DateTime.Now.StatusText();
             }
         }
     }

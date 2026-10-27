@@ -26,7 +26,7 @@ namespace NewEditor.Forms
         {
             new TextValue(1, "Physical"),
             new TextValue(2, "Special"),
-            new TextValue(0, "Status")
+            new TextValue(0, "Status"),
         };
 
         static List<TextValue> categories = new List<TextValue>()
@@ -44,7 +44,7 @@ namespace NewEditor.Forms
             new TextValue(11, "Effect On One Side"),
             new TextValue(12, "Force Switch Out"),
             new TextValue(9, "One Hit KO"),
-            new TextValue(13, "Unique Effect")
+            new TextValue(13, "Unique Effect"),
         };
 
         static List<TextValue> targetTypes = new List<TextValue>()

@@ -36,6 +36,7 @@ namespace NewEditor.Forms
                 int id2 = HelperFunctions.ReadShort(pokemonDataRegionalDex, id * 2);
                 if (id2 != 999) regionalDexListBox.Items.Add(pokemonNARC.pokemon[id].Name);
             }
+            dexTotalLabel.Text = "Total: " + regionalDexListBox.Items.Count;
 
             for (int i = 0; i < textNARC.textFiles[VersionConstants.PokemonNameTextFileID].text.Count; i++)
             {
@@ -72,6 +73,7 @@ namespace NewEditor.Forms
         private void clearRegionalButton_Click(object sender, EventArgs e)
         {
             regionalDexListBox.Items.Clear();
+            dexTotalLabel.Text = "Total: " + regionalDexListBox.Items.Count;
         }
 
         private void addRegionalButton_Click(object sender, EventArgs e)
@@ -82,6 +84,7 @@ namespace NewEditor.Forms
             int index = regionalDexListBox.SelectedIndex == -1 ? regionalDexListBox.Items.Count : regionalDexListBox.SelectedIndex + 1;
             regionalDexListBox.Items.Insert(index, name);
             if (regionalDexListBox.SelectedIndex >= 0) regionalDexListBox.SelectedIndex++;
+            dexTotalLabel.Text = "Total: " + regionalDexListBox.Items.Count;
         }
 
         private void removeRegionalButton_Click(object sender, EventArgs e)
@@ -91,6 +94,7 @@ namespace NewEditor.Forms
                 int index = regionalDexListBox.SelectedIndex;
                 regionalDexListBox.Items.RemoveAt(regionalDexListBox.SelectedIndex);
                 regionalDexListBox.SelectedIndex = Math.Min(index, regionalDexListBox.Items.Count - 1);
+                dexTotalLabel.Text = "Total: " + regionalDexListBox.Items.Count;
             }
         }
 
@@ -138,6 +142,19 @@ namespace NewEditor.Forms
         {
             MainEditor.habitatListNarc?.SyncWithEncounterData();
             statusLabel.Text = "Saved habitat list data - " + DateTime.Now.StatusText();
+        }
+
+        private void locateMonTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (locateMonTextBox.Text.Length == 0) return;
+            for (int i = 0; i < regionalDexListBox.Items.Count; i++)
+            {
+                if (regionalDexListBox.Items[i].ToString().ToLower().Contains(locateMonTextBox.Text.ToLower()))
+                {
+                    regionalDexListBox.SelectedIndex = i;
+                    return;
+                }
+            }
         }
     }
 }

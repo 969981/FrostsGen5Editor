@@ -122,13 +122,13 @@ namespace NewEditor.Data
                 Dictionary<int, List<byte>> replaceSections = new Dictionary<int, List<byte>>();
 
                 int pos = 0;
-                while (pos < newArm.Count)
+                while (pos < newArm.Count && pos < oldArm.Count)
                 {
                     if (newArm[pos] != oldArm[pos])
                     {
                         int startPos = pos;
                         List<byte> replacements = new List<byte>();
-                        while (pos < newArm.Count - 4 && newArm[pos] != oldArm[pos])
+                        while (pos < newArm.Count - 4 && pos < oldArm.Count - 4 && newArm[pos] != oldArm[pos])
                         {
                             replacements.AddRange(newArm.GetRange(pos, 4));
                             pos += 4;

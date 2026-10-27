@@ -8,6 +8,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -99,6 +100,7 @@ namespace NewEditor.Forms
             eggGroup1Dropdown.Items.AddRange(eggGroups.ToArray());
             eggGroup2Dropdown.Items.AddRange(eggGroups.ToArray());
 
+            ReadTMArray();
             tmMovesListBox.Items.AddRange(VersionConstants.BW2_TMNames.ToArray());
             miscTutorsListBox.Items.AddRange(VersionConstants.BW2_TutorMoves.GetRange(0, 7).ToArray());
             driftveilTutorsListBox.Items.AddRange(VersionConstants.BW2_TutorMoves.GetRange(7, 15).ToArray());
@@ -797,6 +799,26 @@ namespace NewEditor.Forms
                 learnsetListBox.Items.Insert(i + 1, move);
                 learnsetListBox.SelectedIndex = i + 1;
             }
+        }
+
+        static Dictionary<string, int> TMArray = new Dictionary<string, int>()
+        {
+            {"b2", 0x8CC84 },
+            {"w2", 0x8CCB0 },
+            {"b", 0x9AAA0 },
+            {"w", 0x9AAB8 },
+        };
+
+        private void ReadTMArray()
+        {
+            string key = (MainEditor.RomType == RomType.BW2 ? (MainEditor.BlackVersion ? "b2" : "w2") :
+                MainEditor.RomType == RomType.BW1 ? (MainEditor.BlackVersion ? "b" : "w") : "");
+            if (!TMArray.ContainsKey(key)) return;
+
+            byte[] arm = MainEditor.fileSystem.GetDecompressedArm9();
+            for (int i = 0; i < VersionConstants.BW2_TMNames.Count - 10; i++)
+                VersionConstants.BW2_TMNames[i] = "TM" + (i + 1).ToString("D2") + " " +
+                    MainEditor.textNarc.textFiles[VersionConstants.MoveNameTextFileID].text[HelperFunctions.ReadShort(arm, TMArray[key] + 2 * i)];
         }
     }
 }
