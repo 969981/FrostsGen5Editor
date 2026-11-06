@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- First-stage modern target. Keep the original net48 project untouched until this passes. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RootNamespace>NewEditor</RootNamespace>
+    <AssemblyName>FrostsGen5Editor</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+  </PropertyGroup>
+
+  <!-- Legacy binary integrations are retained during migration and are NOT yet proven runtime-compatible. -->
+  <ItemGroup>
+    <Reference Include="DSDecmp"><HintPath>DSDecmp.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="HelixToolkit"><HintPath>Resources\HelixToolkit.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="OpenTK"><HintPath>Resources\OpenTK.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="Tao.OpenGl"><HintPath>Resources\Tao.OpenGl.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="Tao.Platform.Windows"><HintPath>Resources\Tao.Platform.Windows.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MonoGame.Forms.DX"><HintPath>..\packages\MonoGame.Forms.DX.3.2.0\lib\net48\MonoGame.Forms.DX.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="MonoGame.Framework"><HintPath>..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\lib\net40\MonoGame.Framework.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX"><HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.Direct2D1"><HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.Direct3D11"><HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.Direct3D9"><HintPath>..\packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.DXGI"><HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.Mathematics"><HintPath>..\packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.MediaFoundation"><HintPath>..\packages\SharpDX.MediaFoundation.4.0.1\lib\net45\SharpDX.MediaFoundation.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.XAudio2"><HintPath>..\packages\SharpDX.XAudio2.4.0.1\lib\net45\SharpDX.XAudio2.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SharpDX.XInput"><HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath><Private>true</Private></Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AIScriptCommands.h" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="TextFileTemplate" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Images\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Patches\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="ScriptHeaders\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Resources\apicula.exe" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
