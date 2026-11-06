@@ -22,8 +22,6 @@
     <Reference Include="OpenTK"><HintPath>Resources\OpenTK.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="Tao.OpenGl"><HintPath>Resources\Tao.OpenGl.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="Tao.Platform.Windows"><HintPath>Resources\Tao.Platform.Windows.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="MonoGame.Forms.DX"><HintPath>..\packages\MonoGame.Forms.DX.3.2.0\lib\net48\MonoGame.Forms.DX.dll</HintPath><Private>true</Private></Reference>
-    <Reference Include="MonoGame.Framework"><HintPath>..\packages\MonoGame.Framework.WindowsDX.9000.3.8.9102\lib\net40\MonoGame.Framework.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="SharpDX"><HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="SharpDX.Direct2D1"><HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="SharpDX.Direct3D11"><HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath><Private>true</Private></Reference>
@@ -38,6 +36,7 @@
   <ItemGroup>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.0" />
     <PackageReference Include="WinForms.DataVisualization" Version="1.10.2" />
+    <PackageReference Include="MonoGame.Forms.DX" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup>
