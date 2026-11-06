@@ -1,0 +1,172 @@
+name: Sync upstream and release Windows build
+
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-upstream-release.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: frosts-gen5-editor-upstream-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-build-release:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout main with full history
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Find and merge upstream changes
+        id: upstream
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://github.com/FrostFalcon/FrostsGen5Editor.git
+          git fetch --no-tags upstream main
+
+          upstream_sha="$(git rev-parse refs/remotes/upstream/main)"
+          release_tag="upstream-${upstream_sha:0:12}"
+          before="$(git rev-parse HEAD)"
+          if git merge-base --is-ancestor "$upstream_sha" HEAD; then
+            echo "Upstream main is already included."
+          else
+            # Never force-reset downstream branches or overwrite local changes.
+            git merge --no-edit --no-ff "$upstream_sha"
+          fi
+          after="$(git rev-parse HEAD)"
+          [[ "$before" != "$after" ]] && changed=true || changed=false
+          if gh release view "$release_tag" --repo "$GH_REPO" >/dev/null 2>&1; then
+            release_exists=true
+          else
+            release_exists=false
+          fi
+          {
+            echo "upstream_sha=$upstream_sha"
+            echo "commit_sha=$after"
+            echo "tag=$release_tag"
+            echo "changed=$changed"
+            echo "release_exists=$release_exists"
+          } >> "$GITHUB_OUTPUT"
+          echo "Upstream: $upstream_sha; local merge: $after; changed=$changed; released=$release_exists"
+
+      - name: Install NuGet CLI
+        if: steps.upstream.outputs.changed == 'true' || steps.upstream.outputs.release_exists == 'false'
+        uses: NuGet/setup-nuget@v2
+
+      - name: Install MSBuild
+        if: steps.upstream.outputs.changed == 'true' || steps.upstream.outputs.release_exists == 'false'
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore .NET Framework 4.8 packages
+        if: steps.upstream.outputs.changed == 'true' || steps.upstream.outputs.release_exists == 'false'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # Legacy csproj HintPath values explicitly refer to ..\packages, NOT ./packages.
+          $packages = [IO.Path]::GetFullPath((Join-Path $env:GITHUB_WORKSPACE '..\packages'))
+          & nuget restore packages.config -PackagesDirectory $packages -NonInteractive
+          if ($LASTEXITCODE -ne 0) { throw "NuGet restore failed: $LASTEXITCODE" }
+
+      - name: Build Windows .NET Framework 4.8 executable
+        if: steps.upstream.outputs.changed == 'true' || steps.upstream.outputs.release_exists == 'false'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & msbuild FrostsGen5Editor.csproj /m /t:Build /p:Configuration=Release /p:Platform=AnyCPU /verbosity:minimal /nologo
+          if ($LASTEXITCODE -ne 0) { throw "MSBuild failed: $LASTEXITCODE" }
+          if (-not (Test-Path 'bin\Release\FrostsGen5Editor.exe')) { throw 'Compiled EXE missing' }
+
+      - name: Package runnable Windows application
+        if: steps.upstream.outputs.changed == 'true' || steps.upstream.outputs.release_exists == 'false'
+        id: package
+        shell: pwsh
+        env:
+          UPSTREAM_SHA: ${{ steps.upstream.outputs.upstream_sha }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $stage = Join-Path $env:RUNNER_TEMP 'FrostsGen5Editor'
+          New-Item -ItemType Directory -Path $stage -Force | Out-Null
+          Copy-Item 'bin\Release\*' -Destination $stage -Recurse -Force
+          # Include image and auxiliary resources even if legacy csproj does not mark all as CopyToOutput.
+          foreach ($folder in @('Images', 'Patches', 'ScriptHeaders', 'Resources')) {
+            if (Test-Path $folder) {
+              Copy-Item $folder -Destination (Join-Path $stage $folder) -Recurse -Force
+            }
+          }
+          if (Test-Path 'TextFileTemplate') {
+            Copy-Item 'TextFileTemplate' -Destination (Join-Path $stage 'TextFileTemplate') -Force
+          }
+          if (-not (Test-Path (Join-Path $stage 'FrostsGen5Editor.exe'))) { throw 'EXE not present in staging folder' }
+          $short = $env:UPSTREAM_SHA.Substring(0, 12)
+          $zip = Join-Path $env:RUNNER_TEMP "FrostsGen5Editor-win-net48-$short.zip"
+          Compress-Archive -Path (Join-Path $stage '*') -DestinationPath $zip -CompressionLevel Optimal -Force
+          $hash = (Get-FileHash -Path $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          $checksumFile = Join-Path $env:RUNNER_TEMP 'SHA256SUMS'
+          Set-Content -Path $checksumFile -Value "$hash  $([IO.Path]::GetFileName($zip))" -Encoding ascii
+          "archive=$($zip -replace '\\','/')" >> $env:GITHUB_OUTPUT
+          "checksum=$($checksumFile -replace '\\','/')" >> $env:GITHUB_OUTPUT
+          Write-Host "Packaged $zip with SHA256 $hash"
+
+      - name: Push tested merge and create GitHub Release
+        if: steps.upstream.outputs.changed == 'true' || steps.upstream.outputs.release_exists == 'false'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          UPSTREAM_SHA: ${{ steps.upstream.outputs.upstream_sha }}
+          MERGED_SHA: ${{ steps.upstream.outputs.commit_sha }}
+          RELEASE_TAG: ${{ steps.upstream.outputs.tag }}
+          CHANGED: ${{ steps.upstream.outputs.changed }}
+          RELEASE_EXISTS: ${{ steps.upstream.outputs.release_exists }}
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+          CHECKSUM: ${{ steps.package.outputs.checksum }}
+        run: |
+          set -euo pipefail
+          if [[ "$CHANGED" == 'true' ]]; then
+            auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+            git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth" push origin HEAD:main
+          fi
+          if [[ "$RELEASE_EXISTS" == 'true' ]]; then
+            echo "Release already exists for $UPSTREAM_SHA"
+            exit 0
+          fi
+          cat > release-notes.md <<EOF
+          Automated Windows build synchronized from [FrostFalcon/FrostsGen5Editor](https://github.com/FrostFalcon/FrostsGen5Editor).
+
+          - Upstream commit: [${UPSTREAM_SHA}](https://github.com/FrostFalcon/FrostsGen5Editor/commit/${UPSTREAM_SHA})
+          - Mirror commit: \`${MERGED_SHA}\`
+          - Target: Windows with .NET Framework 4.8
+          - Download the zip, extract it, and run FrostsGen5Editor.exe.
+          - SHA256SUMS verifies the package checksum.
+          EOF
+          gh release create "$RELEASE_TAG" "$ARCHIVE" "$CHECKSUM" \
+            --repo "$GH_REPO" --target "$MERGED_SHA" \
+            --title "FrostsGen5Editor upstream ${UPSTREAM_SHA:0:12}" \
+            --notes-file release-notes.md
+
+      - name: Upload build files for diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frostsgen5editor-build-diagnostics
+          path: |
+            bin/Release/
+            obj/Release/
+          if-no-files-found: ignore
