@@ -43,6 +43,30 @@ jobs:
           if (-not (Test-Path bin/Release/net10.0-windows/FrostsGen5Editor.exe)) { throw "NET10 EXE missing" }
       - name: Publish portable Windows build
         run: dotnet publish FrostsGen5Editor.Net10.csproj -c Release -r win-x64 --self-contained false -o publish/net10
+      - name: Launch GUI executable on Windows runner (informational smoke test)
+        id: smoke
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $exe = Join-Path $env:GITHUB_WORKSPACE 'publish/net10/FrostsGen5Editor.exe'
+          $folder = Split-Path $exe
+          if (-not (Test-Path $exe)) { throw "Published exe missing" }
+          # Some hosted runners do not provide an interactive desktop or GPU;
+          # a failure here is reported, not treated as proof of a binary regression.
+          $p = Start-Process -FilePath $exe -WorkingDirectory $folder -PassThru
+          try {
+            Start-Sleep -Seconds 8
+            $p.Refresh()
+            if ($p.HasExited) {
+              throw "GUI exited during startup (exit code $($p.ExitCode)); inspect runtime dependencies."
+            }
+            Write-Host 'GUI process stayed alive for 8 seconds.'
+          }
+          finally {
+            $p.Refresh()
+            if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue }
+          }
       - uses: actions/upload-artifact@v4
         with:
           name: FrostsGen5Editor-net10-win-x64
