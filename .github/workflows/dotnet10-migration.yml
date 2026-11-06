@@ -1,9 +1,13 @@
-name: Validate .NET 10 SLNX migration
+name: Build .NET 10 SLNX and preview release
 
 on:
   push:
     branches: [main, migration/net10-slnx]
   workflow_dispatch:
+  workflow_run:
+    workflows: ['Sync upstream and release Windows build']
+    types: [completed]
+    branches: [main]
   pull_request:
     paths:
       - 'FrostsGen5Editor.Net10.csproj'
@@ -17,10 +21,11 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   windows-build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: windows-latest
     timeout-minutes: 35
     steps:
@@ -76,6 +81,49 @@ jobs:
           name: FrostsGen5Editor-net10-win-x64
           path: publish/net10/
           if-no-files-found: error
+      - name: Publish idempotent .NET 10 preview after main/upstream sync
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_run' || github.event_name == 'workflow_dispatch')
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          # Only publish preview builds for a revision already published by the stable sync workflow.
+          $upstreamSha = (& gh api repos/FrostFalcon/FrostsGen5Editor/commits/main --jq .sha).Trim()
+          if ($LASTEXITCODE -ne 0 -or $upstreamSha.Length -lt 12) { throw 'Cannot resolve upstream SHA' }
+          $short = $upstreamSha.Substring(0, 12)
+          $stableTag = "upstream-$short"
+          $previewTag = "net10-preview-$short"
+          & gh release view $stableTag --repo $env:GH_REPO *> $null
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "Stable sync release $stableTag has not been published; skipping preview."
+            exit 0
+          }
+          & gh release view $previewTag --repo $env:GH_REPO *> $null
+          if ($LASTEXITCODE -eq 0) {
+            Write-Host "Preview $previewTag already exists; no duplicate release."
+            exit 0
+          }
+          $archive = "FrostsGen5Editor-net10-win-x64-preview-$short.zip"
+          Compress-Archive -Path 'publish/net10/*' -DestinationPath $archive -CompressionLevel Optimal -Force
+          $hash = (Get-FileHash -Path $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          Set-Content -Path 'NET10-SHA256SUMS' -Value "$hash  $archive" -Encoding ascii
+          @"
+          Experimental .NET 10 Windows Desktop preview synchronized from FrostFalcon/FrostsGen5Editor.
+
+          Upstream commit: $upstreamSha
+          Framework: net10.0-windows (win-x64), framework-dependent.
+          Requires .NET 10 Windows Desktop Runtime.
+
+          Build and basic GUI process startup are verified in Actions.
+          ROM editing, model/animation preview and ROM save workflows still need functional regression tests.
+          Stable .NET Framework 4.8 releases remain available separately.
+          "@ | Set-Content -Path 'preview-notes.md' -Encoding utf8
+          & gh release create $previewTag $archive 'NET10-SHA256SUMS' `
+            --repo $env:GH_REPO --target $env:GITHUB_SHA --prerelease `
+            --title "FrostsGen5Editor .NET 10 preview ($short)" --notes-file 'preview-notes.md'
+          if ($LASTEXITCODE -ne 0) { throw "Preview release failed: $previewTag" }
       - name: Upload MSBuild diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@v4
